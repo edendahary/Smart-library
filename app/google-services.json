@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "887348915413",
+    "project_id": "edenproject-26533",
+    "storage_bucket": "edenproject-26533.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887348915413:android:de669819a3c53d57d6465c",
+        "android_client_info": {
+          "package_name": "com.example.edenproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887348915413-qpmvk2sco272kiu9hvqssbl1kpp1bv87.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPWX6uUA4x1XE52Pdafxo7lNMnxULLxpI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887348915413-qpmvk2sco272kiu9hvqssbl1kpp1bv87.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

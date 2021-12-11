@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">EdenProject</string>
+    <string name="EdenGM">בוקר טוב</string>
+    <string name="txtPass">סיסמא</string>
+    <string name="txtUserName">אימייל </string>
+    <string name="sword_of_destiny">Sword Of Destiny</string>
+</resources>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity"
+    android:background="#5dc3fc">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="#f4feff">
+
+            <TextView
+                android:id="@+id/textView_show_address_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="5dp"
+                android:text="Address Details"
+                android:textColor="@color/black"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textSize="30dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            android:layout_margin="15dp"
+            android:background="#f4feff">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/ic_profile"
+                android:background="@drawable/ic_profile"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_show_full_name"
+                android:hint="Loading..."
+                android:layout_marginStart="50dp"
+                android:textSize="18sp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/textView_show_full_name"
+                android:background="@android:color/darker_gray"
+                android:id="@+id/divider_name"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_Address"
+                android:layout_marginTop="50dp"
+                android:text="Address*"
+                android:textColor="#555555"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/editText_Address_County"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/textView_Address"
+                android:background="@drawable/border"
+                android:hint="Enter your County"
+                android:inputType="textPostalAddress"
+                android:padding="6dp"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editText_Address_City"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/editText_Address_County"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/border"
+                android:hint="Enter your City"
+                android:inputType="textPostalAddress"
+                android:padding="6dp"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editText_Address_Street"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/editText_Address_City"
+                android:layout_marginTop="20dp"
+
+                android:background="@drawable/border"
+                android:hint="Enter your Street"
+                android:inputType="textPostalAddress"
+                android:padding="6dp"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editText_Address_Postal_Code"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/editText_Address_Street"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/border"
+                android:hint="Enter your Postal Code"
+                android:inputType="textPostalAddress"
+                android:padding="6dp"
+                android:textSize="16sp" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                style="?android:attr/progressBarStyleLarge"
+                android:id="@+id/progressBar"
+                android:elevation="10dp"
+                android:visibility="gone"/>
+    </RelativeLayout>
+        <Button
+            android:id="@+id/button_add_address"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="100dp"
+            android:text="Add Address"
+            />
+
+
+    </LinearLayout>
+
+</ScrollView>
