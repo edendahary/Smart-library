@@ -56,13 +56,14 @@
                         <ImageButton
                             android:id="@+id/imageButton_the_last_wish"
                             android:layout_width="70dp"
-                            android:scaleType="fitCenter"
                             android:adjustViewBounds="true"
                             android:layout_height="100dp"
+                            android:scaleType="centerCrop"
                             android:layout_marginTop="10dp"
                             android:src="@drawable/the_witcher_the_last_wish"/>
 
                         <TextView
+                            android:id="@+id/textview_last_wish"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -87,13 +88,17 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
+                        <ImageButton
+                            android:id="@+id/imageButton_sword_of_destiny"
+                            android:layout_width="70dp"
+                            android:adjustViewBounds="true"
                             android:layout_height="100dp"
+                            android:scaleType="centerCrop"
                             android:layout_marginTop="10dp"
                             android:src="@drawable/sword_of_destiny" />
 
                         <TextView
+                            android:id="@+id/textView_sword_of_destiny"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -119,13 +124,17 @@
                         android:orientation="vertical">
 
 
-                        <ImageView
-                            android:layout_width="100dp"
+                        <ImageButton
+                            android:id="@+id/imageButton_blood_of_elves"
+                            android:layout_width="70dp"
+                            android:adjustViewBounds="true"
                             android:layout_height="100dp"
+                            android:scaleType="centerCrop"
                             android:layout_marginTop="10dp"
                             android:src="@drawable/the_witcher_blood_of_elves" />
 
                         <TextView
+                            android:id="@+id/textView_blood_of_elves"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -151,13 +160,17 @@
                         android:orientation="vertical">
 
 
-                        <ImageView
-                            android:layout_width="100dp"
+                        <ImageButton
+                            android:id="@+id/imageButton_the_tower_of_the_swallow"
+                            android:layout_width="70dp"
+                            android:adjustViewBounds="true"
                             android:layout_height="100dp"
+                            android:scaleType="centerCrop"
                             android:layout_marginTop="10dp"
                             android:src="@drawable/the_witcher_the_tower_of_the_swallow" />
 
                         <TextView
+                            android:id="@+id/textView_the_tower_of_the_swallow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"

@@ -9,14 +9,24 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class HomeActivity extends AppCompatActivity {
-    private ImageButton buttonImage;
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final String EXTRA_TEXT = "EXTRA_TEXT";
+    public static final String EXTRA_IMAGE = "EXTRA_IMAGE";
+    private ImageButton GetImageView;
+    private Bundle extras;
+    private Intent intent;
+
+    private ImageButton buttonImage_last_wish,buttonImage_sword_of_destiny,buttonImage_blood_of_elves,buttonImage_the_tower_Of_the_swallow;
+    private TextView textViewLastWish,textViewSwordOfDestiny,textViewBloodOfElves,textViewTheTowerOfTheSwallow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +35,98 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ColorDrawable cd = new ColorDrawable(Color.parseColor("#c1461d"));
         getSupportActionBar().setBackgroundDrawable(cd);
-        buttonImage = findViewById(R.id.imageButton_the_last_wish);
+
+        //--- TextView ---\\
+        textViewLastWish = findViewById(R.id.textview_last_wish);
+        textViewSwordOfDestiny = findViewById(R.id.textView_sword_of_destiny);
+        textViewBloodOfElves = findViewById(R.id.textView_blood_of_elves);
+        textViewTheTowerOfTheSwallow = findViewById(R.id.textView_the_tower_of_the_swallow);
+
+
+        //--- Buttons ---\\
+        buttonImage_last_wish = findViewById(R.id.imageButton_the_last_wish);
+        buttonImage_sword_of_destiny = findViewById(R.id.imageButton_sword_of_destiny);
+        buttonImage_blood_of_elves = findViewById(R.id.imageButton_blood_of_elves);
+        buttonImage_the_tower_Of_the_swallow = findViewById(R.id.imageButton_the_tower_of_the_swallow);
+
+        buttonImage_last_wish.setOnClickListener(this);
+        buttonImage_sword_of_destiny.setOnClickListener(this);
+        buttonImage_blood_of_elves.setOnClickListener(this);
+        buttonImage_the_tower_Of_the_swallow.setOnClickListener(this);
+
+
+    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.imageButton_the_last_wish:
+
+                //--- Get the drawable Image---\\
+                GetImageView = findViewById (R.id.imageButton_the_last_wish);
+                GetImageView.buildDrawingCache ();
+
+                extras = new Bundle ();
+                extras.putParcelable (EXTRA_IMAGE, GetImageView.getDrawingCache ());
+                //-------------------------------\\
+
+
+                intent = new Intent(HomeActivity.this,ChooseBookActivity.class);
+                intent.putExtra(EXTRA_TEXT,textViewLastWish.getText().toString());
+                intent.putExtras (extras);
+                startActivity(intent);
+                finish();
+                break;
+
+            case R.id.imageButton_sword_of_destiny:
+                //--- Get the drawable Image---\\
+                GetImageView = findViewById (R.id.imageButton_sword_of_destiny);
+                GetImageView.buildDrawingCache ();
+
+                extras = new Bundle ();
+                extras.putParcelable (EXTRA_IMAGE, GetImageView.getDrawingCache ());
+                //-------------------------------\\
+
+
+                intent = new Intent(HomeActivity.this,ChooseBookActivity.class);
+                intent.putExtra(EXTRA_TEXT,textViewSwordOfDestiny.getText().toString());
+                intent.putExtras (extras);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.imageButton_blood_of_elves:
+                //--- Get the drawable Image---\\
+                GetImageView = findViewById (R.id.imageButton_blood_of_elves);
+                GetImageView.buildDrawingCache ();
+
+                extras = new Bundle ();
+                extras.putParcelable (EXTRA_IMAGE, GetImageView.getDrawingCache ());
+                //-------------------------------\\
+
+
+                intent = new Intent(HomeActivity.this,ChooseBookActivity.class);
+                intent.putExtra(EXTRA_TEXT,textViewBloodOfElves.getText().toString());
+                intent.putExtras (extras);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.imageButton_the_tower_of_the_swallow:
+                //--- Get the drawable Image---\\
+                GetImageView = findViewById (R.id.imageButton_the_tower_of_the_swallow);
+                GetImageView.buildDrawingCache ();
+
+                extras = new Bundle ();
+                extras.putParcelable (EXTRA_IMAGE, GetImageView.getDrawingCache ());
+                //-------------------------------\\
+
+
+                intent = new Intent(HomeActivity.this,ChooseBookActivity.class);
+                intent.putExtra(EXTRA_TEXT,textViewTheTowerOfTheSwallow.getText().toString());
+                intent.putExtras (extras);
+                startActivity(intent);
+                finish();
+                break;
+
+        }
     }
 
 
@@ -74,4 +175,6 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }
