@@ -1,5 +1,7 @@
 package com.example.edenproject;
 
+import java.util.ArrayList;
+
 public class UserClass {
     private String full_name;
     private String email;

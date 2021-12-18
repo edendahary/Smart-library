@@ -44,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
+
         getSupportActionBar().setTitle("Register");
         progressBar = findViewById(R.id.progressBar);
         editTextRegisterFullName = findViewById(R.id.editText_register_full_name);

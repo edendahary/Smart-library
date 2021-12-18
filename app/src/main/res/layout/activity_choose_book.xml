@@ -32,7 +32,7 @@
             android:layout_height="500dp"
             android:layout_below="@+id/textView_book_title"
             android:layout_marginTop="20dp"
-            android:src="@color/white"/>
+            android:src="@color/white" />
 
         <Button
             android:id="@+id/button_add_to_cart"

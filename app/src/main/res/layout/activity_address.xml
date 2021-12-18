@@ -24,8 +24,8 @@
                 android:layout_centerInParent="true"
                 android:layout_marginTop="5dp"
                 android:text="Address Details"
-                android:textColor="@color/black"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/black"
                 android:textSize="30dp" />
         </RelativeLayout>
 

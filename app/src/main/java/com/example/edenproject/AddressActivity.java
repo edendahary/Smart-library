@@ -23,6 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddressActivity extends AppCompatActivity {
     private TextView textViewAddress_Country,textViewFullName,textViewAddress_City,textViewAddress_Street,textViewAddress_Postal_Code;
     private String fullname;
@@ -31,10 +34,12 @@ public class AddressActivity extends AppCompatActivity {
     private Button add_Address;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address);
+
 
 
         getSupportActionBar().setTitle("My Address");

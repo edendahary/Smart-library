@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/drawable/border.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/activity_address.xml" value="0.264" />
+        <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/activity_checkout.xml" value="0.21422101449275363" />
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/activity_choose_book.xml" value="0.24728260869565216" />
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/activity_delete_profile.xml" value="0.2" />
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/activity_forgot_password.xml" value="0.2" />
@@ -14,7 +15,7 @@
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/activity_main.xml" value="0.176" />
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/activity_main2.xml" value="0.176" />
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/activity_main3.xml" value="0.18704710144927536" />
-        <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/activity_my_cart.xml" value="0.19791666666666666" />
+        <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/activity_my_cart.xml" value="0.176" />
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/activity_my_list.xml" value="0.2028985507246377" />
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/activity_profile.xml" value="0.25" />
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/activity_settings.xml" value="0.25" />
@@ -24,6 +25,7 @@
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/activity_view_search_book.xml" value="0.2427536231884058" />
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/after_login_activity.xml" value="0.23731884057971014" />
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/library.xml" value="0.1546875" />
+        <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/list_item.xml" value="0.2427536231884058" />
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/login_activity.xml" value="0.23731884057971014" />
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/profile.xml" value="0.1546875" />
         <entry key="..\:/Users/Eden-Dahary/AndroidStudioProjects/EdenProject/app/src/main/res/layout/register_activity.xml" value="0.2" />

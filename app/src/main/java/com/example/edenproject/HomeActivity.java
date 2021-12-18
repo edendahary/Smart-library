@@ -165,6 +165,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(HomeActivity.this,SettingsActivity.class);
             startActivity(intent);
             finish();
+        }else if (id == R.id.menu_cart){
+            Intent intent = new Intent(HomeActivity.this,MyCartActivity.class);
+            startActivity(intent);
+            finish();
         }else if (id == R.id.menu_log_out){
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(HomeActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();

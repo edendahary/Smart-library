@@ -7,24 +7,42 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ChooseBookActivity extends AppCompatActivity {
     private Button buttonAddToCart;
     private TextView textViewBookTitle;
-    private ImageView ImageView;
+    private ImageView imageView;
+    private Bundle extras;
+    private Bitmap image;
+    private FirebaseAuth authProfile;
+    private FirebaseUser firebaseUser;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +52,15 @@ public class ChooseBookActivity extends AppCompatActivity {
         getSupportActionBar().setBackgroundDrawable(cd);
 
 
+        authProfile = FirebaseAuth.getInstance();
+
+        FirebaseUser firebaseUser = authProfile.getCurrentUser();
+
+
         //--- Buttons ---\\
         buttonAddToCart = findViewById(R.id.button_add_to_cart);
 
         textViewBookTitle = findViewById(R.id.textView_book_title);
-        ImageView =findViewById(R.id.imageView_profile_pic);
 
 
 
@@ -47,25 +69,31 @@ public class ChooseBookActivity extends AppCompatActivity {
 
         if (bundle != null) {
 
-            ImageView imageView = findViewById (R.id.imageView_profile_pic);
+            imageView = findViewById (R.id.imageView_profile_pic);
 
-            Bitmap image = bundle.getParcelable ("EXTRA_IMAGE");
+            image = bundle.getParcelable ("EXTRA_IMAGE");
             imageView.setImageBitmap (image);
 
         }
 
 
+
+        //--- Get the Text ---\\
         Intent intent = getIntent();
         String text = intent.getStringExtra(HomeActivity.EXTRA_TEXT);
         textViewBookTitle.setText(text);
 
 
+
+
+
         buttonAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(ChooseBookActivity.this,MyCartActivity.class);
-                startActivity(intent1);
-                finish();
+                //--- Add books to the cart in the database ---\\
+                DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("users");
+                BookItem bookItem = new BookItem(text,0);
+                referenceProfile.child(firebaseUser.getUid()).child("Cart").child(text).setValue(bookItem);
             }
         });
     }
@@ -100,6 +128,10 @@ public class ChooseBookActivity extends AppCompatActivity {
             finish();
         }else if (id == R.id.menu_settings){
             Intent intent = new Intent(ChooseBookActivity.this,SettingsActivity.class);
+            startActivity(intent);
+            finish();
+        }else if (id == R.id.menu_cart){
+            Intent intent = new Intent(ChooseBookActivity.this,MyCartActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_log_out){
