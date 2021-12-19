@@ -1,9 +1,236 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CheckoutActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- For placing address -->
+        <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#f4feff">
+
+            <TextView
+                android:id="@+id/textView_ship_to"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Ship To"
+                android:textSize="20sp" />
+
+            <RelativeLayout
+                android:id="@+id/address_box"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_toRightOf="@+id/textView_ship_to">
+
+                <TextView
+                    android:id="@+id/textView_full_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Full Name"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textView_street"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView_full_name"
+                    android:layout_marginTop="10dp"
+                    android:text="Street + number"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textView_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView_street"
+                    android:layout_marginTop="10dp"
+                    android:text="City"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textView_country"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView_city"
+                    android:layout_marginTop="10dp"
+                    android:text="County"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textView_zip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView_country"
+                    android:layout_marginTop="10dp"
+                    android:text="ZipCode"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textView_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textView_zip"
+                    android:layout_marginTop="10dp"
+                    android:text="Phone"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/address_box"
+                android:text="edit address"
+                android:backgroundTint="#c1461d" />
+
+
+        </RelativeLayout>
+
+        <!-- For placing payment method -->
+        <RelativeLayout
+            android:id="@+id/payment_box"
+            android:layout_width="match_parent"
+            android:layout_height="229dp"
+            android:background="#f4feff">
+
+            <RelativeLayout
+                android:id="@+id/textPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView_payment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Select a payment method"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <RadioGroup
+                android:id="@+id/radio_group_register_payment"
+                android:layout_width="100dp"
+                android:layout_height="240dp"
+                android:layout_below="@+id/textPayment"
+                android:background="#f4feff"
+                android:orientation="vertical">
+
+
+                <RadioButton
+                    android:id="@+id/radio_credit_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="70dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/imageView_creditCard_logo"
+                    android:layout_width="50dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="-70dp"
+                    android:background="#f4feff"
+                    android:src="@drawable/ic_credit_card" />
+
+                <RadioButton
+                    android:id="@+id/radio_paypal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="70dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/imageView_Paypal_logo"
+                    android:layout_width="50dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="-70dp"
+                    android:src="@drawable/ic_paypal" />
+
+                <RadioButton
+                    android:id="@+id/radio_bit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/imageView_Bit_logo"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginTop="-50dp"
+                    android:src="@drawable/ic_bit" />
+
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/editTextCreditCard"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_below="@+id/textPayment"
+                android:layout_marginLeft="100dp"
+                android:background="@drawable/border"
+                android:inputType="textPersonName"
+                android:hint="Credit Card" />
+
+            <EditText
+                android:id="@+id/editTextPaypal"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_below="@+id/editTextCreditCard"
+                android:layout_marginLeft="100dp"
+                android:background="@drawable/border"
+                android:inputType="textPersonName"
+                android:hint="Credit Card" />
+
+            <EditText
+                android:id="@+id/editTextBit"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_below="@+id/editTextPaypal"
+                android:layout_marginLeft="100dp"
+                android:background="@drawable/border"
+                android:inputType="textPersonName"
+                android:hint="Credit Card" />
+
+        </RelativeLayout>
+
+        <!-- For placing the chosen product  -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#f4feff">
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            </ListView>
+
+        </RelativeLayout>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:elevation="10dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+
+</ScrollView>

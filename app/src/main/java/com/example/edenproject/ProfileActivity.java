@@ -57,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         getSupportActionBar().setTitle("Profile");
-        ColorDrawable cd = new ColorDrawable(Color.parseColor("#56bffa"));
+        ColorDrawable cd = new ColorDrawable(Color.parseColor("#c1461d"));
         getSupportActionBar().setBackgroundDrawable(cd);
 
         Button buttonAddressDetails = findViewById(R.id.button_address_details);

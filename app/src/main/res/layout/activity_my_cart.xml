@@ -21,15 +21,17 @@
         android:id="@+id/progressBar"
         android:elevation="10dp"
         android:visibility="gone"/>
+
     <Button
         android:id="@+id/button_proceed_to_checkout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="70dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="70dp"
-        android:text="Proceed To checkout"
-        android:layout_alignParentBottom="true"/>
+        android:backgroundTint="#c1461d"
+        android:text="Proceed To checkout" />
 
 
 

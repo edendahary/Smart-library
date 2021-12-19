@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -44,8 +46,10 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_activity);
-
+        ColorDrawable cd = new ColorDrawable(Color.parseColor("#c1461d"));
+        getSupportActionBar().setBackgroundDrawable(cd);
         getSupportActionBar().setTitle("Register");
+
         progressBar = findViewById(R.id.progressBar);
         editTextRegisterFullName = findViewById(R.id.editText_register_full_name);
         editTextRegisterEmail = findViewById(R.id.editText_register_email);

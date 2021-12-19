@@ -48,6 +48,7 @@ public class ChooseBookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_book);
+        getSupportActionBar().setTitle("Choose Book");
         ColorDrawable cd = new ColorDrawable(Color.parseColor("#c1461d"));
         getSupportActionBar().setBackgroundDrawable(cd);
 

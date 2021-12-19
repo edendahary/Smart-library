@@ -9,11 +9,28 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class CheckoutActivity extends AppCompatActivity {
+    private String fullName,Street,City,County,Phone,Zip;
+    private TextView textViewFullName,textViewStreet,textViewCity,textViewCounty,textViewMobile,textViewZip;
+    private FirebaseAuth authProfile;
+    private ProgressBar progressBar;
+    private RadioGroup radioGroupRegisterGender;
+    private RadioButton radioButtonRegisterGenderSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +39,78 @@ public class CheckoutActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Checkout");
         ColorDrawable cd = new ColorDrawable(Color.parseColor("#c1461d"));
         getSupportActionBar().setBackgroundDrawable(cd);
+
+        progressBar = findViewById(R.id.progressBar);
+        textViewFullName = findViewById(R.id.textView_full_name);
+        textViewStreet = findViewById(R.id.textView_street);
+        textViewCity = findViewById(R.id.textView_city);
+        textViewCounty = findViewById(R.id.textView_country);
+        textViewZip = findViewById(R.id.textView_zip);
+        textViewMobile = findViewById(R.id.textView_phone);
+
+        authProfile = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = authProfile.getCurrentUser();
+
+        progressBar.setVisibility(View.VISIBLE);
+        showUserDetails(firebaseUser);
+        showAddress(firebaseUser);
+        }
+        private void showUserDetails(FirebaseUser firebaseUser){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserClass ReadUserDetails = snapshot.getValue(UserClass.class);
+                if(ReadUserDetails != null){
+                    fullName = ReadUserDetails.getFull_name();
+                    Phone = ReadUserDetails.getPhone();
+                    textViewFullName.setText(fullName);
+                    textViewMobile.setText(Phone);
+                }else{
+                    Toast.makeText(CheckoutActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(CheckoutActivity.this,"Something went wrong ! ",Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+    private void  showAddress(FirebaseUser firebaseUser ) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        databaseReference.child(firebaseUser.getUid()).child("Address").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                AddressClass UserAddress = snapshot.getValue(AddressClass.class);
+                if (UserAddress != null) {
+                    Street = UserAddress.getStreet();
+                    City = UserAddress.getCity();
+                    County = UserAddress.getCounty();
+                    Zip = UserAddress.getPostal_Code();
+                    textViewStreet.setText(Street);
+                    textViewCity.setText(City);
+                    textViewCounty.setText(County);
+                    textViewZip.setText(Zip);
+                } else {
+                    Toast.makeText(CheckoutActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(CheckoutActivity.this,"Something went wrong ! ",Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+
     }
 
 
-    //--- Menu ToolBar---\\
+
+        //--- Menu ToolBar---\\
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.common_menu,menu);

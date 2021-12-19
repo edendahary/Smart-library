@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Best Books"
-            android:background="@color/white"
+            android:background="#f4feff"
             android:textSize="22sp"
             app:layout_constraintBottom_toTopOf="@+id/scrollView_1">
         </TextView>
@@ -190,7 +190,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="New Books"
-            android:background="@color/white"
+            android:background="#f4feff"
 
             android:textSize="22sp"
             app:layout_constraintBottom_toTopOf="@+id/scrollView_2">
@@ -226,13 +226,17 @@
                         android:orientation="vertical">
 
 
-                        <ImageView
-                            android:layout_width="100dp"
+                        <ImageButton
+                            android:id="@+id/imageButton_book_name1"
+                            android:layout_width="70dp"
+                            android:adjustViewBounds="true"
                             android:layout_height="100dp"
+                            android:scaleType="centerCrop"
                             android:layout_marginTop="10dp"
-                            android:src="@drawable/the_witcher_the_last_wish" />
+                            android:src="@drawable/the_witcher_the_last_wish"/>
 
                         <TextView
+                            android:id="@+id/textview_book_name1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -257,13 +261,17 @@
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
+                        <ImageButton
+                            android:id="@+id/imageButton_book_name2"
+                            android:layout_width="70dp"
+                            android:adjustViewBounds="true"
                             android:layout_height="100dp"
+                            android:scaleType="centerCrop"
                             android:layout_marginTop="10dp"
                             android:src="@drawable/sword_of_destiny" />
 
                         <TextView
+                            android:id="@+id/textView_book_name2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -289,13 +297,17 @@
                         android:orientation="vertical">
 
 
-                        <ImageView
-                            android:layout_width="100dp"
+                        <ImageButton
+                            android:id="@+id/imageButton_book_name3"
+                            android:layout_width="70dp"
+                            android:adjustViewBounds="true"
                             android:layout_height="100dp"
+                            android:scaleType="centerCrop"
                             android:layout_marginTop="10dp"
                             android:src="@drawable/the_witcher_blood_of_elves" />
 
                         <TextView
+                            android:id="@+id/textView_book_name3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -321,13 +333,17 @@
                         android:orientation="vertical">
 
 
-                        <ImageView
-                            android:layout_width="100dp"
+                        <ImageButton
+                            android:id="@+id/imageButton_book_name4"
+                            android:layout_width="70dp"
+                            android:adjustViewBounds="true"
                             android:layout_height="100dp"
+                            android:scaleType="centerCrop"
                             android:layout_marginTop="10dp"
                             android:src="@drawable/the_witcher_the_tower_of_the_swallow" />
 
                         <TextView
+                            android:id="@+id/textView_book_name4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -348,7 +364,7 @@
             android:layout_height="match_parent"
             android:text="Action Books"
             android:textSize="22sp"
-            android:background="@color/white"
+            android:background="#f4feff"
 
             app:layout_constraintBottom_toTopOf="@+id/scrollView_3">
         </TextView>
@@ -505,7 +521,7 @@
             android:layout_height="match_parent"
             android:text="Drama Books"
             android:textSize="22sp"
-            android:background="@color/white"
+            android:background="#f4feff"
 
             app:layout_constraintBottom_toTopOf="@+id/scrollView_4">
         </TextView>

@@ -67,6 +67,7 @@ public class MyCartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MyCartActivity.this,CheckoutActivity.class);
+
                 startActivity(intent);
                 finish();
             }
@@ -81,22 +82,27 @@ public class MyCartActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 //--- Getting the images and the books name that the user want ---\\
                 Map<String,BookItem> map = (Map<String, BookItem>) snapshot.getValue();
-                for (Map.Entry<String, BookItem> book :map.entrySet()){
-                    book_name.add(book.getKey());
-                    if(book.getKey().equals("The Last Wish")){
-                        book_img.add(R.drawable.the_witcher_the_last_wish);
-                    }if(book.getKey().equals("Sword Of Destiny")){
-                        book_img.add(R.drawable.sword_of_destiny);
-                    }if(book.getKey().equals("Blood Of Elves")){
-                        book_img.add(R.drawable.the_witcher_blood_of_elves);
+                if(map != null) {
+                    for (Map.Entry<String, BookItem> book : map.entrySet()) {
+                        book_name.add(book.getKey());
+                        if (book.getKey().equals("The Last Wish")) {
+                            book_img.add(R.drawable.the_witcher_the_last_wish);
+                        }
+                        if (book.getKey().equals("Sword Of Destiny")) {
+                            book_img.add(R.drawable.sword_of_destiny);
+                        }
+                        if (book.getKey().equals("Blood Of Elves")) {
+                            book_img.add(R.drawable.the_witcher_blood_of_elves);
 
-                    }if(book.getKey().equals("The Tower Of The Swallow")) {
-                        book_img.add(R.drawable.the_witcher_the_tower_of_the_swallow);
+                        }
+                        if (book.getKey().equals("The Tower Of The Swallow")) {
+                            book_img.add(R.drawable.the_witcher_the_tower_of_the_swallow);
+                        }
                     }
+                    //--- Sending to the Adapter the current books and images ---\\
+                    customAdapter customAdapter = new customAdapter(getApplicationContext(),book_name,book_img);
+                    listView.setAdapter(customAdapter);
                 }
-                //--- Sending to the Adapter the current books and images ---\\
-                customAdapter customAdapter = new customAdapter(getApplicationContext(),book_name,book_img);
-                listView.setAdapter(customAdapter);
                 progressBar.setVisibility(View.GONE);
 
 

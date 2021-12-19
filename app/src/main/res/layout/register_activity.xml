@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterActivity"
-    android:background="#5dc3fc">
+    android:background="#c1461d">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
         android:layout_margin="15dp"
-        android:background="#f4feff">
+        android:background="@drawable/home_logo">
 
         <TextView
             android:layout_width="match_parent"
@@ -20,7 +20,8 @@
             android:id="@+id/textView_register_head"
             android:text="Please enter your details."
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:background="#c9c2c2"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -31,7 +32,8 @@
             android:textColor="#555555"
             android:textSize="16sp"
             android:padding="6dp"
-            android:layout_marginTop="50dp"/>
+            android:layout_marginTop="50dp"
+            android:background="#c9c2c2"/>
 
         <EditText
             android:id="@+id/editText_register_full_name"
@@ -53,7 +55,8 @@
             android:textColor="#555555"
             android:textSize="16sp"
             android:padding="6dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:background="#c9c2c2"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,7 +77,8 @@
             android:textColor="#555555"
             android:textSize="16sp"
             android:padding="6dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:background="#c9c2c2"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -96,29 +100,33 @@
             android:textColor="#555555"
             android:textSize="16sp"
             android:padding="6dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:background="#c9c2c2"/>
+
         <RadioGroup
+            android:id="@+id/radio_group_register_gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_below="@+id/textView_register_gender"
-            android:id="@+id/radio_group_register_gender">
+            android:background="@color/white"
+            android:orientation="horizontal">
 
             <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/radio_female"
-                android:text="Female"
-                android:textSize="16sp"
-                android:textColor="#555555"/>
-            <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Female"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <RadioButton
                 android:id="@+id/radio_male"
-                android:text="Male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:textSize="16sp"
-                android:textColor="#555555"/>
+                android:text="Male"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
         </RadioGroup>
 
@@ -131,7 +139,8 @@
             android:textColor="#555555"
             android:textSize="16sp"
             android:padding="6dp"
-            android:layout_marginTop="50dp"/>
+            android:layout_marginTop="50dp"
+            android:background="#c9c2c2"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -151,7 +160,8 @@
             android:textColor="#555555"
             android:textSize="16sp"
             android:padding="6dp"
-            android:layout_marginTop="50dp"/>
+            android:layout_marginTop="50dp"
+            android:background="#c9c2c2"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -172,7 +182,8 @@
             android:padding="6dp"
             android:text="Confirm Password"
             android:textColor="#555555"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:background="#c9c2c2"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -192,7 +203,8 @@
             android:layout_marginLeft="70dp"
             android:layout_marginTop="50dp"
             android:layout_marginRight="70dp"
-            android:text="Register" />
+            android:text="Register"
+            android:backgroundTint="#c1461d"/>
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -42,8 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
         getSupportActionBar().setTitle("Login");
-//        ColorDrawable cd = new ColorDrawable(Color.parseColor("#000000"));
-//        getSupportActionBar().setBackgroundDrawable(cd);
+        ColorDrawable cd = new ColorDrawable(Color.parseColor("#c1461d"));
+        getSupportActionBar().setBackgroundDrawable(cd);
 
         editTextLoginEmail = findViewById(R.id.editText_login_email);
         editTextLoginPwd = findViewById(R.id.editText_login_pwd);
