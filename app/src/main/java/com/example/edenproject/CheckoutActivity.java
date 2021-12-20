@@ -10,6 +10,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -24,13 +28,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class CheckoutActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class CheckoutActivity extends AppCompatActivity{
     private String fullName,Street,City,County,Phone,Zip;
     private TextView textViewFullName,textViewStreet,textViewCity,textViewCounty,textViewMobile,textViewZip;
     private FirebaseAuth authProfile;
     private ProgressBar progressBar;
-    private RadioGroup radioGroupRegisterGender;
-    private RadioButton radioButtonRegisterGenderSelected;
+    private ListView listView;
+    private customAdapter customAdapter;
+    private ArrayList<String>book_name;
+    private ArrayList<Integer>img;
+    private Button buttonNewCard;
+    private RadioButton RadiobuttonCreditCard,RadiobuttonPaypal,RadiobuttonBit;
+    private EditText editTextPaypal,editTextBit;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +59,73 @@ public class CheckoutActivity extends AppCompatActivity {
         textViewCounty = findViewById(R.id.textView_country);
         textViewZip = findViewById(R.id.textView_zip);
         textViewMobile = findViewById(R.id.textView_phone);
+        listView = findViewById(R.id.listView1);
+        buttonNewCard = findViewById(R.id.button_CreditCard);
+        RadiobuttonCreditCard = findViewById(R.id.radio_credit_card);
+        RadiobuttonPaypal = findViewById(R.id.radio_paypal);
+        RadiobuttonBit = findViewById(R.id.radio_bit);
+        editTextPaypal = findViewById(R.id.editTextPaypal);
+        editTextBit = findViewById(R.id.editTextBit);
+
+
+
+
+
+        buttonNewCard.setEnabled(false);
+        editTextBit.setEnabled(false);
+        editTextPaypal.setEnabled(false);
+        ColorDrawable gray = new ColorDrawable(Color.parseColor("#607D8B"));
+
+        RadiobuttonCreditCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonNewCard.setEnabled(true);
+                editTextBit.setEnabled(false);
+                editTextPaypal.setEnabled(false);
+                editTextPaypal.setBackground(gray);
+                editTextBit.setBackground(gray);
+
+            }
+        });
+        RadiobuttonPaypal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonNewCard.setEnabled(false);
+                editTextPaypal.setEnabled(true);
+                editTextBit.setEnabled(false);
+                editTextBit.setBackground(gray);
+                editTextPaypal.setBackgroundResource(R.drawable.border);
+
+            }
+        });
+        RadiobuttonBit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonNewCard.setEnabled(false);
+                editTextPaypal.setEnabled(false);
+                editTextBit.setEnabled(true);
+                editTextPaypal.setBackground(gray);
+                editTextBit.setBackgroundResource(R.drawable.border);
+            }
+        });
+
+        if(getIntent() != null && getIntent().getExtras() != null && getIntent().hasExtra(HomeActivity.EXTRA_BOOKS) &&
+                getIntent().hasExtra(HomeActivity.EXTRA_IMAGES)){
+             book_name = (ArrayList<String>) getIntent().getSerializableExtra(HomeActivity.EXTRA_BOOKS);
+             img = (ArrayList<Integer>) getIntent().getSerializableExtra(HomeActivity.EXTRA_IMAGES);
+             customAdapter = new customAdapter(getApplicationContext(),book_name,img);
+             listView.setAdapter(customAdapter);
+        }
+
+        buttonNewCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CheckoutActivity.this,CreditCardActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
 
         authProfile = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
@@ -54,7 +133,8 @@ public class CheckoutActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         showUserDetails(firebaseUser);
         showAddress(firebaseUser);
-        }
+        progressBar.setVisibility(View.GONE);
+    }
         private void showUserDetails(FirebaseUser firebaseUser){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
         databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -126,6 +206,10 @@ public class CheckoutActivity extends AppCompatActivity {
             overridePendingTransition(0,0);
         }else if (id == R.id.menu_profile){
             Intent intent = new Intent(CheckoutActivity.this,ProfileActivity.class);
+            startActivity(intent);
+            finish();
+        }else if (id == R.id.menu_cart){
+            Intent intent = new Intent(CheckoutActivity.this,MyCartActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_my_list){

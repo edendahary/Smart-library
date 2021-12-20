@@ -10,8 +10,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,18 +29,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class MyCartActivity extends AppCompatActivity {
+public class MyCartActivity extends AppCompatActivity implements customAdapter.CheckBoxCheckedListener {
     private ListView listView;
     private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth authProfile;
     private ProgressBar progressBar;
-    private ArrayList<String> book_name;
-    private ArrayList<Integer> book_img;
+    private ArrayList<String> book_name,check_book;
+    private ArrayList<Integer> book_img,check_img_book;
     private Button ProceedToCheckout;
+    private customAdapter customAdapter;
+    private CheckBox checkBox;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +60,9 @@ public class MyCartActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         progressBar = findViewById(R.id.progressBar);
         ProceedToCheckout = findViewById(R.id.button_proceed_to_checkout);
-
-
+        checkBox = findViewById(R.id.checkbox);
+        check_book = new ArrayList<>();
+        check_img_book = new ArrayList<>();
         book_name =new ArrayList<>();
         book_img = new ArrayList<>();
 
@@ -63,16 +74,19 @@ public class MyCartActivity extends AppCompatActivity {
         showUserBooks(firebaseUser);
 
 
+        //---Pass the books and their images --\\
         ProceedToCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MyCartActivity.this,CheckoutActivity.class);
-
+                intent.putExtra(HomeActivity.EXTRA_BOOKS,check_book);
+                intent.putExtra(HomeActivity.EXTRA_IMAGES,check_img_book);
                 startActivity(intent);
                 finish();
             }
         });
     }
+
     private void showUserBooks(FirebaseUser firebaseUser) {
         String userID= firebaseUser.getUid();
 
@@ -100,8 +114,10 @@ public class MyCartActivity extends AppCompatActivity {
                         }
                     }
                     //--- Sending to the Adapter the current books and images ---\\
-                    customAdapter customAdapter = new customAdapter(getApplicationContext(),book_name,book_img);
+                    customAdapter = new customAdapter(MyCartActivity.this,book_name,book_img);
                     listView.setAdapter(customAdapter);
+                    customAdapter.setCheckedListener(MyCartActivity.this);
+
                 }
                 progressBar.setVisibility(View.GONE);
 
@@ -114,14 +130,18 @@ public class MyCartActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
             }
         });
-
-
-
-
+    }
+    @Override
+    public void getCheckboxCheckedListener(int position) {
+        if(check_book != null && check_book.contains(book_name.get(position))){
+            check_book.remove(book_name.get(position));
+            check_img_book.remove(book_img.get(position));
+        }else {
+            check_book.add(book_name.get(position));
+            check_img_book.add(book_img.get(position));
+        }
 
     }
-
-
 
 
 //--- Menu ToolBar---\\
@@ -164,4 +184,6 @@ public class MyCartActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

@@ -21,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String EXTRA_TEXT = "EXTRA_TEXT";
     public static final String EXTRA_IMAGE = "EXTRA_IMAGE";
+    public static final String EXTRA_IMAGES = "EXTRA_AIMAGE";
+    public static final String EXTRA_BOOKS = "EXTRA_ARRAY_BOOK";
     private ImageButton GetImageView;
     private Bundle extras;
     private Intent intent;

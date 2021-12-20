@@ -158,6 +158,10 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(ProfileActivity.this,MyListActivity.class);
             startActivity(intent);
             finish();
+        }else if(id == R.id.menu_cart) {
+            Intent intent = new Intent(ProfileActivity.this,MyCartActivity.class);
+            startActivity(intent);
+            finish();
         }else if (id == R.id.menu_settings){
             Intent intent = new Intent(ProfileActivity.this,SettingsActivity.class);
             startActivity(intent);
