@@ -6,7 +6,9 @@ public class BookItem {
     private String Name;
     private int quantity;
 
+    public BookItem(){
 
+    }
     public BookItem(String name, int quantity) {
         Name = name;
         this.quantity = quantity;

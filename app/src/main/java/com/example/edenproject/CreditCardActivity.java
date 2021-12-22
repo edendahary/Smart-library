@@ -56,7 +56,10 @@ public class CreditCardActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            Toast.makeText(CreditCardActivity.this, "Thank you for purchase", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CreditCardActivity.this, "Thank you for purchase", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(CreditCardActivity.this,HomeActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                     });
                     alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

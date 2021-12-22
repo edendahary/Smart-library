@@ -66,7 +66,6 @@ public class FullAddressActivity extends AppCompatActivity {
 
     private void showUserAddress(FirebaseUser firebaseUser) {
         String userID= firebaseUser.getUid();
-
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
         databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -99,9 +98,19 @@ public class FullAddressActivity extends AppCompatActivity {
                     text_street.setText(street);
                     text_postal_code.setText(postal_code);
 
-                    progressBar = findViewById(R.id.progressBar);
+
+                }else{
+                    country ="None";
+                    city = "None";
+                    street = "None";
+                    postal_code = "None";
+                    text_county.setText(country);
+                    text_city.setText(city);
+                    text_street.setText(street);
+                    text_postal_code.setText(postal_code);
 
                 }
+
                 progressBar.setVisibility(View.GONE);
 
             }

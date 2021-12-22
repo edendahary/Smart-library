@@ -76,7 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                 if(editTextLoginPwd.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
                     editTextLoginPwd.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     imageViewShowHidePwd.setImageResource(R.drawable.ic_hide_pwd);
-                }else{
+                }
+                else{
                     editTextLoginPwd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     imageViewShowHidePwd.setImageResource(R.drawable.ic_show_pwd);
                 }
@@ -180,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (authProfile.getCurrentUser() != null){
+        if (authProfile.getCurrentUser() != null && authProfile.getCurrentUser().isEmailVerified()){
             Toast.makeText(LoginActivity.this, "Already Logged In.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
             startActivity(intent);

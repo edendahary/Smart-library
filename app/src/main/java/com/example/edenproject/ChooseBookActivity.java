@@ -64,19 +64,17 @@ public class ChooseBookActivity extends AppCompatActivity {
         textViewBookTitle = findViewById(R.id.textView_book_title);
 
 
-
         //--- Get the Image Drawable ---\\
-        Bundle bundle = getIntent ().getExtras ();
+        Bundle bundle = getIntent().getExtras();
 
         if (bundle != null) {
 
-            imageView = findViewById (R.id.imageView_profile_pic);
+            imageView = findViewById(R.id.imageView_profile_pic);
 
-            image = bundle.getParcelable ("EXTRA_IMAGE");
-            imageView.setImageBitmap (image);
+            image = bundle.getParcelable("EXTRA_IMAGE");
+            imageView.setImageBitmap(image);
 
         }
-
 
 
         //--- Get the Text ---\\
@@ -85,19 +83,47 @@ public class ChooseBookActivity extends AppCompatActivity {
         textViewBookTitle.setText(text);
 
 
-
-
-
         buttonAddToCart.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 //--- Add books to the cart in the database ---\\
+                BookItem currBook = new BookItem();
                 DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("users");
-                BookItem bookItem = new BookItem(text,0);
-                referenceProfile.child(firebaseUser.getUid()).child("Cart").child(text).setValue(bookItem);
+                referenceProfile.child(firebaseUser.getUid()).child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists() && snapshot.hasChild(text)){
+                            for( DataSnapshot dataSnapshot:snapshot.child(text).getChildren()){
+                                if(dataSnapshot.getValue().toString().equals(text)){
+                                    currBook.setName((String) dataSnapshot.getValue());
+                                }if(dataSnapshot.getKey().equals("quantity")){
+                                    currBook.setQuantity((int) ((Long)dataSnapshot.getValue()+1));
+                                }
+                            }
+                            referenceProfile.child(firebaseUser.getUid()).child("Cart").child(text).setValue(currBook);
+                        }else {
+                        BookItem bookItem = new BookItem(text,1);
+                        referenceProfile.child(firebaseUser.getUid()).child("Cart").child(text).setValue(bookItem);
+                    }
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                {
+
+
+                }
+
             }
         });
     }
+
 
 
 

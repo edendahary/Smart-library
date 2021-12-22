@@ -36,7 +36,7 @@ public class CheckoutActivity extends AppCompatActivity{
     private FirebaseAuth authProfile;
     private ProgressBar progressBar;
     private ListView listView;
-    private customAdapter customAdapter;
+    private ListAdapter listAdapter;
     private ArrayList<String>book_name;
     private ArrayList<Integer>img;
     private Button buttonNewCard;
@@ -113,8 +113,8 @@ public class CheckoutActivity extends AppCompatActivity{
                 getIntent().hasExtra(HomeActivity.EXTRA_IMAGES)){
              book_name = (ArrayList<String>) getIntent().getSerializableExtra(HomeActivity.EXTRA_BOOKS);
              img = (ArrayList<Integer>) getIntent().getSerializableExtra(HomeActivity.EXTRA_IMAGES);
-             customAdapter = new customAdapter(getApplicationContext(),book_name,img);
-             listView.setAdapter(customAdapter);
+             listAdapter = new ListAdapter(getApplicationContext(),book_name,img);
+             listView.setAdapter(listAdapter);
         }
 
         buttonNewCard.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +147,6 @@ public class CheckoutActivity extends AppCompatActivity{
                     textViewFullName.setText(fullName);
                     textViewMobile.setText(Phone);
                 }else{
-                    Toast.makeText(CheckoutActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 }
             }
@@ -174,7 +173,6 @@ public class CheckoutActivity extends AppCompatActivity{
                     textViewCounty.setText(County);
                     textViewZip.setText(Zip);
                 } else {
-                    Toast.makeText(CheckoutActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 }
             }
