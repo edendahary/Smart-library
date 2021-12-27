@@ -54,11 +54,15 @@ public class ListAdapter extends ArrayAdapter<ArrayList<String>> {
     }
     class ViewHolder{
         ImageView imageView;
-        TextView textView;
+        TextView textView,Author_name,Category,Publication_date,Pages;
 
         ViewHolder(View view){
             imageView = view.findViewById(R.id.imageView_book);
             textView = view.findViewById(R.id.textView_book_name);
+            Author_name = view.findViewById(R.id.textView_book_author_name);
+            Category = view.findViewById(R.id.textView_book_category);
+            Publication_date = view.findViewById(R.id.textView_book_publication_date);
+            Pages =  view.findViewById(R.id.textView_book_pages);
         }
     }
 

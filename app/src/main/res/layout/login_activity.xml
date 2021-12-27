@@ -56,15 +56,15 @@
 
         <TextView
             android:id="@+id/textView_login_pwd"
-            android:layout_width="320dp"
+            android:layout_width="267dp"
             android:layout_height="30dp"
             android:layout_below="@+id/textView_login_email"
             android:layout_marginStart="50dp"
             android:layout_marginTop="50dp"
+            android:background="#c9c2c2"
             android:text="Password*"
             android:textColor="#555555"
-            android:textSize="16sp"
-            android:background="#c9c2c2"/>
+            android:textSize="16sp" />
 
         <ImageView
             android:id="@+id/imageView_pwd_logo"

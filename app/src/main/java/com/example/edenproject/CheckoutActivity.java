@@ -42,6 +42,7 @@ public class CheckoutActivity extends AppCompatActivity{
     private Button buttonNewCard;
     private RadioButton RadiobuttonCreditCard,RadiobuttonPaypal,RadiobuttonBit;
     private EditText editTextPaypal,editTextBit;
+    private DatabaseReference databaseReference;
 
 
     @Override
@@ -189,11 +190,30 @@ public class CheckoutActivity extends AppCompatActivity{
 
 
         //--- Menu ToolBar---\\
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            FirebaseAuth authProfile = FirebaseAuth.getInstance();
+            FirebaseUser firebaseUser = authProfile.getCurrentUser();
+            String userID= firebaseUser.getUid();
+            databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(!snapshot.child(userID).exists()){
+                        getMenuInflater().inflate(R.menu.author_menu,menu);
+                    }else {
+                        getMenuInflater().inflate(R.menu.common_menu,menu);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            return super.onCreateOptionsMenu(menu);
+
+        }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

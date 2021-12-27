@@ -51,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
 
         authProfile = FirebaseAuth.getInstance();
 
+
+
         Button buttonLogin = findViewById(R.id.button_login);
         Button buttonRegister = findViewById(R.id.button_register);
         Button buttonForgotPassword = findViewById(R.id.button_forgot_password);
@@ -133,7 +135,8 @@ public class LoginActivity extends AppCompatActivity {
                     //Check if the email is verified before user can access their profile
                     if(firebaseUser.isEmailVerified()){
                         Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
                         finish();
                     }else{
                         firebaseUser.sendEmailVerification();

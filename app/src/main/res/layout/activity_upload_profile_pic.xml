@@ -7,7 +7,6 @@
     tools:context=".UploadProfilePicActivity"
     android:background="#5dc3fc">
 
-
     <RelativeLayout
 
         android:layout_width="match_parent"
@@ -16,13 +15,13 @@
         android:layout_margin="15dp"
         android:background="#f4feff">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView_upload_pic_head"
-        android:text="Upload your profile picture"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+        <TextView
+            android:id="@+id/textView_upload_pic_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Upload your profile picture"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     <Button
         android:layout_width="match_parent"

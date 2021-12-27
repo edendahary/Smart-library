@@ -15,15 +15,63 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp" />
 
-        <TextView
-            android:id="@+id/textView_book_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="20dp"
-            android:text="Book Name"
-            android:textColor="@color/black"
-            android:textSize="25dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView_book_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Book Name"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView_book_author_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView_book_name"
+                android:layout_marginStart="20dp"
+                android:text="Author Name"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/textView_book_publication_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView_book_author_name"
+                android:layout_marginStart="20dp"
+                android:text="Publication Date"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:inputType="date"/>
+
+            <TextView
+                android:id="@+id/textView_book_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_toRightOf="@+id/textView_book_name"
+                android:text="Category"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView_book_pages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView_book_category"
+                android:layout_marginStart="30dp"
+                android:layout_toRightOf="@+id/textView_book_author_name"
+                android:inputType="number"
+                android:text="Pages"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+
 
 
     </LinearLayout>

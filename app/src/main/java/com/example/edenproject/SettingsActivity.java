@@ -28,13 +28,14 @@ import com.google.firebase.database.ValueEventListener;
 public class SettingsActivity extends AppCompatActivity {
     Button buttonUpdateEmail , buttonUpdatePwd, buttonDeleteUser;
     private ProgressBar progressBar;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         getSupportActionBar().setTitle("Settings");
-        ColorDrawable cd = new ColorDrawable(Color.parseColor("#56bffa"));
+        ColorDrawable cd = new ColorDrawable(Color.parseColor("#c1461d"));
         getSupportActionBar().setBackgroundDrawable(cd);
 
         buttonUpdateEmail = findViewById(R.id.button_update_email);
@@ -71,7 +72,25 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common_menu,menu);
+        FirebaseAuth authProfile = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = authProfile.getCurrentUser();
+        String userID= firebaseUser.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.child(userID).exists()){
+                    getMenuInflater().inflate(R.menu.author_menu,menu);
+                }else {
+                    getMenuInflater().inflate(R.menu.common_menu,menu);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -82,12 +101,20 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);
-        }else if (id == R.id.menu_profile){
-            Intent intent = new Intent(SettingsActivity.this,ProfileActivity.class);
+        }else if (id == R.id.menu_new_book){
+            Intent intent = new Intent(SettingsActivity.this,AddBooksActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_my_list){
             Intent intent = new Intent(SettingsActivity.this,MyListActivity.class);
+            startActivity(intent);
+            finish();
+        }else if(id == R.id.menu_cart) {
+            Intent intent = new Intent(SettingsActivity.this,MyCartActivity.class);
+            startActivity(intent);
+            finish();
+        }else if (id == R.id.menu_profile){
+            Intent intent = new Intent(SettingsActivity.this,ProfileActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_log_out){

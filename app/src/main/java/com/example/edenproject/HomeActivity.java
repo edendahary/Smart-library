@@ -17,6 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String EXTRA_TEXT = "EXTRA_TEXT";
@@ -26,6 +32,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton GetImageView;
     private Bundle extras;
     private Intent intent;
+    private DatabaseReference databaseReference;
 
     private ImageButton buttonImage_last_wish,buttonImage_sword_of_destiny,buttonImage_blood_of_elves,buttonImage_the_tower_Of_the_swallow;
     private TextView textViewLastWish,textViewSwordOfDestiny,textViewBloodOfElves,textViewTheTowerOfTheSwallow;
@@ -57,12 +64,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         buttonImage_the_tower_Of_the_swallow.setOnClickListener(this);
 
 
+
     }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.imageButton_the_last_wish:
-
                 //--- Get the drawable Image---\\
                 GetImageView = findViewById (R.id.imageButton_the_last_wish);
                 GetImageView.buildDrawingCache ();
@@ -133,8 +140,27 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common_menu,menu);
+        FirebaseAuth authProfile = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = authProfile.getCurrentUser();
+        String userID= firebaseUser.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.child(userID).exists()){
+                    getMenuInflater().inflate(R.menu.author_menu,menu);
+                }else {
+                    getMenuInflater().inflate(R.menu.common_menu,menu);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override
@@ -144,6 +170,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);
+        }else if (id == R.id.menu_new_book){
+            Intent intent = new Intent(HomeActivity.this,AddBooksActivity.class);
+            startActivity(intent);
+            finish();
         }else if (id == R.id.menu_profile){
             Intent intent = new Intent(HomeActivity.this,ProfileActivity.class);
             startActivity(intent);

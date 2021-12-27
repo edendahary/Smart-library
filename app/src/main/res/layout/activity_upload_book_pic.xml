@@ -4,9 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsActivity"
-    android:background="#c1461d">
+    tools:context=".UploadBookPicActivity"
+    android:background="#5dc3fc">
+
+
     <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
@@ -14,60 +17,48 @@
         android:background="#f4feff">
 
         <TextView
-            android:id="@+id/textView_Settings"
+            android:id="@+id/textView_upload_pic_head"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Settings"
+            android:text="Upload your profile picture"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
-
         <Button
-            android:id="@+id/button_update_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textView_Settings"
-            android:layout_marginLeft="70dp"
-            android:layout_marginTop="50dp"
+            android:id="@+id/button_upload_pic_choose"
+            android:layout_below = "@+id/textView_upload_pic_head"
+            android:layout_marginTop="20dp"
+            android:text="Choose Picture"
             android:layout_marginRight="70dp"
-            android:backgroundTint="#c1461d"
-            android:text="Update Email" />
+            android:layout_marginLeft="70dp"/>
+
+        <ImageView
+            android:id="@+id/imageView_book_pic"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_below="@+id/button_upload_pic_choose"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/border" />
 
         <Button
-            android:id="@+id/button_update_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/button_update_email"
+            android:id="@+id/button_upload_pic"
+            android:layout_below="@+id/imageView_book_pic"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="70dp"
-            android:layout_marginTop="23dp"
             android:layout_marginRight="70dp"
-            android:backgroundTint="#c1461d"
-            android:text="Update Password" />
-
-        <Button
-            android:id="@+id/button_delete_user"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/button_update_pwd"
-            android:layout_marginLeft="70dp"
-            android:layout_marginTop="200dp"
-            android:layout_marginRight="70dp"
-            android:text="Delete User!"
-            android:backgroundTint="#c1461d"
-            android:textColor="#ff0000" />
-        <!--- android:backgroundTint="@color/black" -->
-
+            android:text="Upload"/>
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:id="@+id/progressBar"
             android:elevation="10dp"
             android:visibility="gone"/>
-
-
-</RelativeLayout>
+    </RelativeLayout>
 
 </ScrollView>

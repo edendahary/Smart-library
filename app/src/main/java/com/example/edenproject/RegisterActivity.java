@@ -13,6 +13,8 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -39,6 +41,10 @@ public class RegisterActivity extends AppCompatActivity {
     private RadioGroup radioGroupRegisterGender;
     private RadioButton radioButtonRegisterGenderSelected;
     private DatePickerDialog picker;
+    private CheckBox checkBox;
+    private boolean Author;
+    private UserClass user;
+    private AuthorClass author;
 
 
 
@@ -57,6 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
         editTextRegisterMobile = findViewById(R.id.editText_register_mobile);
         editTextRegisterPwd = findViewById(R.id.editText_register_password);
         editTextRegisterConfirmPwd = findViewById(R.id.editText_register_confirm_password);
+        checkBox = findViewById(R.id.checkbox);
 
         radioGroupRegisterGender = findViewById(R.id.radio_group_register_gender);
         radioGroupRegisterGender.clearCheck();
@@ -77,6 +84,17 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 },year,month,day);
                 picker.show();
+            }
+        });
+
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Author = true;
+                }else {
+                    Author = false;
+                }
             }
         });
 
@@ -158,19 +176,33 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    UserClass user = new UserClass(textFullName, textEmail,textDob, textMobile,textGender);
                     Toast.makeText(RegisterActivity.this, "Registering User Successful", Toast.LENGTH_SHORT).show();
                     FirebaseUser firebaseUser = auth.getCurrentUser();
+                    if(Author == true){
+                        author = new AuthorClass(textFullName, textEmail, textDob, textMobile, textGender);
+                        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users").child("Authors");
+                        referenceProfile.child(firebaseUser.getUid()).setValue(author).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                firebaseUser.sendEmailVerification();
+                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                    }else {
+                        user = new UserClass(textFullName, textEmail, textDob, textMobile, textGender);
+                        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+                        referenceProfile.child(firebaseUser.getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                firebaseUser.sendEmailVerification();
+                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                finish();
+                            }
+                        });
+                    }
 
-                    DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("users");
-                    referenceProfile.child(firebaseUser.getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            firebaseUser.sendEmailVerification();
-                            startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
-                            finish();
-                        }
-                    });
 
                 }else {
                     try {

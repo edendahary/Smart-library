@@ -3,7 +3,7 @@ package com.example.edenproject;
 import android.graphics.Bitmap;
 
 public class BookItem {
-    private String Name;
+    private String Name,AuthorName,Category,PublicationDate,Description,Uri;
     private int quantity;
 
     public BookItem(){
@@ -14,7 +14,66 @@ public class BookItem {
         this.quantity = quantity;
     }
 
+    public BookItem(String name, String authorName, String category, String publicationDate, String description, int pages,String uri) {
+        Name = name;
+        AuthorName = authorName;
+        Category = category;
+        PublicationDate = publicationDate;
+        Description = description;
+        Pages = pages;
+        quantity = 1;
+        this.Uri = uri;
+    }
 
+    public String getUri() {
+        return Uri;
+    }
+
+    public void setUri(String uri) {
+        Uri = uri;
+    }
+
+    public String getAuthorName() {
+        return AuthorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        AuthorName = authorName;
+    }
+
+    public String getCategory() {
+        return Category;
+    }
+
+    public void setCategory(String category) {
+        Category = category;
+    }
+
+    public String getPublicationDate() {
+        return PublicationDate;
+    }
+
+    public void setPublicationDate(String publicationDate) {
+        PublicationDate = publicationDate;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public int getPages() {
+        return Pages;
+    }
+
+    public void setPages(int pages) {
+        Pages = pages;
+    }
+
+    private int Pages;
 
     public String getName() {
         return Name;

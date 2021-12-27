@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EdenProject">
         <activity
+            android:name=".UploadBookPicActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddBooksActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreditCardActivity"
             android:exported="false" />
         <activity

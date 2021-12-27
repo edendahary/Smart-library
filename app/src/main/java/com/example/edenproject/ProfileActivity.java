@@ -46,6 +46,9 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseUser firebaseUser;
     private StorageReference storageReference;
     private FirebaseStorage storage;
+    private DatabaseReference databaseReference;
+    private UserClass ReadUserDetails;
+    private AuthorClass ReadAuthorDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,48 +105,118 @@ public class ProfileActivity extends AppCompatActivity {
     private void showUserProfile(FirebaseUser firebaseUser){
         String userID= firebaseUser.getUid();
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
-        databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserClass ReadUserDetails = snapshot.getValue(UserClass.class);
-                if(ReadUserDetails != null){
-                    fullname= ReadUserDetails.getFull_name();
-                    email = authProfile.getCurrentUser().getEmail();
-                    dob = ReadUserDetails.getDob();
-                    gender = ReadUserDetails.getGender();
-                    mobile = ReadUserDetails.getPhone();
-                    textViewWelcome.setText("Welcome, " + fullname+ "!");
-                    textViewFullName.setText(fullname);
-                    textViewEmail.setText(email);
-                    textViewDoB.setText(dob);
-                    textViewGender.setText(gender);
-                    textViewMobile.setText(mobile);
-                    progressBar = findViewById(R.id.progressBar);
+                if(!snapshot.child(userID).exists()){
+                    databaseReference = FirebaseDatabase.getInstance().getReference("Users").child("Authors");
+                    databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            ReadAuthorDetails = snapshot.getValue(AuthorClass.class);
+                            if(ReadAuthorDetails != null){
+                                fullname= ReadAuthorDetails.getFull_name();
+                                email = authProfile.getCurrentUser().getEmail();
+                                dob = ReadAuthorDetails.getDob();
+                                gender = ReadAuthorDetails.getGender();
+                                mobile = ReadAuthorDetails.getPhone();
+                                textViewWelcome.setText("Welcome, " + fullname+ "!");
+                                textViewFullName.setText(fullname);
+                                textViewEmail.setText(email);
+                                textViewDoB.setText(dob);
+                                textViewGender.setText(gender);
+                                textViewMobile.setText(mobile);
+                                progressBar = findViewById(R.id.progressBar);
 
-                    Uri uri = firebaseUser.getPhotoUrl();
-                    Picasso.get().load(uri).into(imageView);
+                                Uri uri = firebaseUser.getPhotoUrl();
+                                Picasso.get().load(uri).into(imageView);
+
+                            }else{
+                                Toast.makeText(ProfileActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                            }
+                            progressBar.setVisibility(View.GONE);
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(ProfileActivity.this,"Something went wrong ! ",Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+
+                        }
+                    });
 
                 }else{
-                    Toast.makeText(ProfileActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                    databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            ReadUserDetails = snapshot.getValue(UserClass.class);
+                            if(ReadUserDetails != null){
+                                fullname= ReadUserDetails.getFull_name();
+                                email = authProfile.getCurrentUser().getEmail();
+                                dob = ReadUserDetails.getDob();
+                                gender = ReadUserDetails.getGender();
+                                mobile = ReadUserDetails.getPhone();
+                                textViewWelcome.setText("Welcome, " + fullname+ "!");
+                                textViewFullName.setText(fullname);
+                                textViewEmail.setText(email);
+                                textViewDoB.setText(dob);
+                                textViewGender.setText(gender);
+                                textViewMobile.setText(mobile);
+                                progressBar = findViewById(R.id.progressBar);
+
+                                Uri uri = firebaseUser.getPhotoUrl();
+                                Picasso.get().load(uri).into(imageView);
+
+                            }else{
+                                Toast.makeText(ProfileActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                            }
+                            progressBar.setVisibility(View.GONE);
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(ProfileActivity.this,"Something went wrong ! ",Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+
+                        }
+                    });
+
                 }
-                progressBar.setVisibility(View.GONE);
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ProfileActivity.this,"Something went wrong ! ",Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
-
-            }
+        }
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+            Toast.makeText(ProfileActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+            };
         });
+
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common_menu,menu);
+        FirebaseAuth authProfile = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = authProfile.getCurrentUser();
+        String userID= firebaseUser.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.child(userID).exists()){
+                    getMenuInflater().inflate(R.menu.author_menu,menu);
+                }else {
+                    getMenuInflater().inflate(R.menu.common_menu,menu);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -154,6 +227,10 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);
+        }else if (id == R.id.menu_new_book){
+            Intent intent = new Intent(ProfileActivity.this,AddBooksActivity.class);
+            startActivity(intent);
+            finish();
         }else if (id == R.id.menu_my_list){
             Intent intent = new Intent(ProfileActivity.this,MyListActivity.class);
             startActivity(intent);
