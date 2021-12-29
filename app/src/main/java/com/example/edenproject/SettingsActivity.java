@@ -125,7 +125,7 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_home){
-            startActivity(new Intent(SettingsActivity.this, HomeActivity.class));
+            startActivity(new Intent(SettingsActivity.this, NewHomeActivity.class));
             finish();
         }
         return super.onOptionsItemSelected(item);

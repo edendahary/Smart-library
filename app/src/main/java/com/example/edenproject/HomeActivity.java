@@ -63,8 +63,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         buttonImage_blood_of_elves.setOnClickListener(this);
         buttonImage_the_tower_Of_the_swallow.setOnClickListener(this);
 
-
-
     }
     @Override
     public void onClick(View v) {

@@ -15,23 +15,22 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
+
 import java.nio.file.StandardWatchEventKinds;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class customAdapter extends ArrayAdapter <ArrayList<String>> {
+public class customAdapter extends ArrayAdapter <BookItem> {
     private final Context context;
-    private ArrayList<String> book_name;
-    private ArrayList<Integer> imgid;
+    private ArrayList<BookItem> books;
     private CheckBoxCheckedListener checkedListener;
 
-    public customAdapter(@NonNull Context context, ArrayList data, ArrayList img) {
-       super(context, R.layout.list_item, data);
-        book_name = new ArrayList();
-        imgid = new ArrayList();
+    public customAdapter(@NonNull Context context, ArrayList<BookItem> data) {
+       super(context, R.layout.list_item,data);
+        books = new ArrayList();
         this.context = context;
-        this.book_name = data;
-        this.imgid = img;
+        this.books = data;
     }
 
     @NonNull
@@ -49,8 +48,9 @@ public class customAdapter extends ArrayAdapter <ArrayList<String>> {
         }else{
             holder= (MyViewHolder) row.getTag();
         }
-        holder.imageView.setImageResource(imgid.get(position));
-        holder.textView.setText(book_name.get(position));
+        Glide.with(context).load(books.get(position).getUri()).into(holder.imageView);
+        //holder.imageView.setImageResource(imgid.get(position));
+        holder.textView.setText(books.get(position).getName());
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

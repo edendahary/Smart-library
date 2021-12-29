@@ -66,52 +66,106 @@ public class FullAddressActivity extends AppCompatActivity {
 
     private void showUserAddress(FirebaseUser firebaseUser) {
         String userID= firebaseUser.getUid();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+
         databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserClass ReadUserDetails = snapshot.getValue(UserClass.class);
-                fullname= ReadUserDetails.getFull_name();
-                text_fullname.setText(fullname);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(FullAddressActivity.this,"Something went wrong ! ",Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
-            }
-        });
-
-
-        databaseReference.child(userID).child("Address").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                AddressClass ReadUserAddress = snapshot.getValue(AddressClass.class);
-                if(ReadUserAddress != null){
-                    country = ReadUserAddress.getCounty();
-                    city = ReadUserAddress.getCity();
-                    street = ReadUserAddress.getStreet();
-                    postal_code = ReadUserAddress.getPostal_Code();
-                    text_county.setText(country);
-                    text_city.setText(city);
-                    text_street.setText(street);
-                    text_postal_code.setText(postal_code);
+                if(snapshot.exists()){
+                    UserClass ReadUserDetails = snapshot.getValue(UserClass.class);
+                    fullname= ReadUserDetails.getFull_name();
+                    text_fullname.setText(fullname);
+                    databaseReference.child(userID).child("Address").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            AddressClass ReadUserAddress = snapshot.getValue(AddressClass.class);
+                            if(ReadUserAddress != null){
+                                country = ReadUserAddress.getCounty();
+                                city = ReadUserAddress.getCity();
+                                street = ReadUserAddress.getStreet();
+                                postal_code = ReadUserAddress.getPostal_Code();
+                                text_county.setText(country);
+                                text_city.setText(city);
+                                text_street.setText(street);
+                                text_postal_code.setText(postal_code);
 
 
-                }else{
-                    country ="None";
-                    city = "None";
-                    street = "None";
-                    postal_code = "None";
-                    text_county.setText(country);
-                    text_city.setText(city);
-                    text_street.setText(street);
-                    text_postal_code.setText(postal_code);
+                            }else{
+                                country ="None";
+                                city = "None";
+                                street = "None";
+                                postal_code = "None";
+                                text_county.setText(country);
+                                text_city.setText(city);
+                                text_street.setText(street);
+                                text_postal_code.setText(postal_code);
+
+                            }
+
+                            progressBar.setVisibility(View.GONE);
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(FullAddressActivity.this,"Something went wrong ! ",Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+
+                        }
+                    });
+                }else {
+                    databaseReference.child("Authors").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()){
+                                UserClass ReadUserDetails = snapshot.getValue(UserClass.class);
+                                fullname= ReadUserDetails.getFull_name();
+                                text_fullname.setText(fullname);
+                                databaseReference.child("Authors").child(userID).child("Address").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        AddressClass ReadUserAddress = snapshot.getValue(AddressClass.class);
+                                        if(ReadUserAddress != null){
+                                            country = ReadUserAddress.getCounty();
+                                            city = ReadUserAddress.getCity();
+                                            street = ReadUserAddress.getStreet();
+                                            postal_code = ReadUserAddress.getPostal_Code();
+
+
+                                        }else{
+                                            country ="None";
+                                            city = "None";
+                                            street = "None";
+                                            postal_code = "None";
+
+                                        }
+                                        text_county.setText(country);
+                                        text_city.setText(city);
+                                        text_street.setText(street);
+                                        text_postal_code.setText(postal_code);
+
+                                        progressBar.setVisibility(View.GONE);
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Toast.makeText(FullAddressActivity.this,"Something went wrong ! ",Toast.LENGTH_LONG).show();
+                                        progressBar.setVisibility(View.GONE);
+
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
 
                 }
 
-                progressBar.setVisibility(View.GONE);
 
             }
 
@@ -119,9 +173,11 @@ public class FullAddressActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(FullAddressActivity.this,"Something went wrong ! ",Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
-
             }
         });
+
+
+
 
     }
     @Override

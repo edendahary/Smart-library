@@ -29,8 +29,11 @@ import com.google.firebase.auth.EmailAuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -41,6 +44,8 @@ public class DeleteProfileActivity extends AppCompatActivity {
     private TextView textViewAuthenticated;
     private ProgressBar progressBar;
     private String userPwd;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference referenceProfile;
     private Button buttonReAuthenticated, buttonDeleteUser;
     private static final String TAG = "DeleteProfileActivity";
 
@@ -130,9 +135,7 @@ public class DeleteProfileActivity extends AppCompatActivity {
         builder.setMessage("Do you really want to delete your profile and related data ? This action is irreversible!");
         builder.setPositiveButton("Continue ", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                deleteUser(firebaseUser);
-            }
+            public void onClick(DialogInterface dialog, int which) {deleteUser(firebaseUser); }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -181,30 +184,58 @@ public class DeleteProfileActivity extends AppCompatActivity {
     private void deleteUserData() {
         // delete Image Pic
         FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        StorageReference storageReference = firebaseStorage.getReferenceFromUrl(firebaseUser.getPhotoUrl().toString());
-        storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(DeleteProfileActivity.this, "Photo has been deleted!", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(DeleteProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        if(firebaseUser.getPhotoUrl() != null){
+            StorageReference storageReference = firebaseStorage.getReferenceFromUrl(firebaseUser.getPhotoUrl().toString());
+            storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Toast.makeText(DeleteProfileActivity.this, "Photo has been deleted!", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(DeleteProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
         //Delete Data from realtime database
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
-        databaseReference.child(firebaseUser.getUid()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+        referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+        String userID= firebaseUser.getUid();
+        referenceProfile.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(DeleteProfileActivity.this, "Data has been deleted!", Toast.LENGTH_SHORT).show();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.child(userID).exists()){
+                    referenceProfile.child("Authors").child(userID).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(DeleteProfileActivity.this, "Data has been deleted!", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(DeleteProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else {
+                    referenceProfile.child(userID).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(DeleteProfileActivity.this, "Data has been deleted!", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(DeleteProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
-        }).addOnFailureListener(new OnFailureListener() {
+
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(DeleteProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(DeleteProfileActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -212,8 +243,27 @@ public class DeleteProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common_menu,menu);
+        FirebaseAuth authProfile = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = authProfile.getCurrentUser();
+        String userID= firebaseUser.getUid();
+        referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+        referenceProfile.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.child(userID).exists()){
+                    getMenuInflater().inflate(R.menu.author_menu,menu);
+                }else {
+                    getMenuInflater().inflate(R.menu.common_menu,menu);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override
@@ -223,6 +273,14 @@ public class DeleteProfileActivity extends AppCompatActivity {
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);
+        }else if(id == R.id.menu_home){
+            Intent intent = new Intent(DeleteProfileActivity.this,HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }else if (id == R.id.menu_new_book){
+            Intent intent = new Intent(DeleteProfileActivity.this,AddBooksActivity.class);
+            startActivity(intent);
+            finish();
         }else if (id == R.id.menu_profile){
             Intent intent = new Intent(DeleteProfileActivity.this,ProfileActivity.class);
             startActivity(intent);
@@ -231,12 +289,12 @@ public class DeleteProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(DeleteProfileActivity.this,MyListActivity.class);
             startActivity(intent);
             finish();
-        }else if(id == R.id.menu_home){
-            Intent intent = new Intent(DeleteProfileActivity.this,HomeActivity.class);
-            startActivity(intent);
-            finish();
         }else if (id == R.id.menu_settings){
             Intent intent = new Intent(DeleteProfileActivity.this,SettingsActivity.class);
+            startActivity(intent);
+            finish();
+        }else if (id == R.id.menu_cart){
+            Intent intent = new Intent(DeleteProfileActivity.this,MyCartActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_log_out){

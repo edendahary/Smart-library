@@ -136,6 +136,8 @@ public class AddBooksActivity extends AppCompatActivity {
                     BookItem book = new BookItem(textBookName, textAuthorName, textCategory, textPublicationDate, textDescription, page,image);
 
                     DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+                    DatabaseReference referenceBooks = FirebaseDatabase.getInstance().getReference("AllBooks");
+                    referenceBooks.child(book.getName()).setValue(book);
                     referenceProfile.child("Authors").child(firebaseUser.getUid()).child("Books").child(book.getName()).setValue(book).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

@@ -2,7 +2,9 @@ package com.example.edenproject;
 
 import android.graphics.Bitmap;
 
-public class BookItem {
+import java.io.Serializable;
+
+public class BookItem implements Serializable {
     private String Name,AuthorName,Category,PublicationDate,Description,Uri;
     private int quantity;
 
@@ -89,5 +91,20 @@ public class BookItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+
+    @Override
+    public String toString() {
+        return "BookItem{" +
+                "Name='" + Name + '\'' +
+                ", AuthorName='" + AuthorName + '\'' +
+                ", Category='" + Category + '\'' +
+                ", PublicationDate='" + PublicationDate + '\'' +
+                ", Description='" + Description + '\'' +
+                ", Uri='" + Uri + '\'' +
+                ", quantity=" + quantity +
+                ", Pages=" + Pages +
+                '}';
     }
 }

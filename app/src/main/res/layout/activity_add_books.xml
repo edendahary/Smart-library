@@ -95,11 +95,16 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/editText_description"
-                android:layout_width="match_parent"
+                android:inputType="textMultiLine"
+                android:lines="8"
+                android:minLines="6"
+                android:gravity="top|start"
+                android:maxLines="10"
                 android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:scrollbars="vertical"
+                android:id="@+id/editText_description"
                 android:hint="Enter Description"
-                android:inputType="textLongMessage"
                 android:padding="6dp" />
 
         </RelativeLayout>

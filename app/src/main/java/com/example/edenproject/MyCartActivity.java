@@ -10,15 +10,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,9 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class MyCartActivity extends AppCompatActivity implements customAdapter.CheckBoxCheckedListener {
     private ListView listView;
@@ -39,12 +32,15 @@ public class MyCartActivity extends AppCompatActivity implements customAdapter.C
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth authProfile;
     private ProgressBar progressBar;
-    private ArrayList<String> book_name,check_book;
-    private ArrayList<Integer> book_img,check_img_book;
+    private ArrayList<BookItem> books;
+    private ArrayList<BookItem> check_book;
     private Button ProceedToCheckout;
     private customAdapter customAdapter;
     private CheckBox checkBox;
+    private BookItem bookItem;
     private DatabaseReference databaseReference;
+    private Bundle extras;
+    private DatabaseReference referenceProfile;
 
 
 
@@ -63,25 +59,27 @@ public class MyCartActivity extends AppCompatActivity implements customAdapter.C
         ProceedToCheckout = findViewById(R.id.button_proceed_to_checkout);
         checkBox = findViewById(R.id.checkbox);
         check_book = new ArrayList<>();
-        check_img_book = new ArrayList<>();
-        book_name =new ArrayList<>();
-        book_img = new ArrayList<>();
-
+        books =new ArrayList<BookItem>();
         authProfile = FirebaseAuth.getInstance();
-
         firebaseUser = authProfile.getCurrentUser();
 
+
         progressBar.setVisibility(View.VISIBLE);
+
         showUserBooks(firebaseUser);
 
+        progressBar.setVisibility(View.GONE);
 
-        //---Pass the books and their images --\\
+
+
+        //---Pass the books  --\\
         ProceedToCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MyCartActivity.this,CheckoutActivity.class);
-                intent.putExtra(HomeActivity.EXTRA_BOOKS,check_book);
-                intent.putExtra(HomeActivity.EXTRA_IMAGES,check_img_book);
+                extras = new Bundle ();
+                extras.putSerializable("BookItem",check_book);
+                intent.putExtras(extras);
                 startActivity(intent);
                 finish();
             }
@@ -89,57 +87,71 @@ public class MyCartActivity extends AppCompatActivity implements customAdapter.C
     }
 
     private void showUserBooks(FirebaseUser firebaseUser) {
-        String userID= firebaseUser.getUid();
-
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
-        databaseReference.child(userID).child("Cart").addValueEventListener(new ValueEventListener() {
+        //--- Getting the books that the user want ---\\
+        referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+        referenceProfile.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //--- Getting the images and the books name that the user want ---\\
-                Map<String,BookItem> map = (Map<String, BookItem>) snapshot.getValue();
-                if(map != null) {
-                    for (Map.Entry<String, BookItem> book : map.entrySet()) {
-                        book_name.add(book.getKey());
-                        if (book.getKey().equals("The Last Wish")) {
-                            book_img.add(R.drawable.the_witcher_the_last_wish);
+                if (snapshot.exists()) {
+                    referenceProfile.child(firebaseUser.getUid()).child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    BookItem currBook = dataSnapshot.getValue(BookItem.class);
+                                    books.add(currBook);
+                                }
+                                customAdapter = new customAdapter(MyCartActivity.this,books);
+                                listView.setAdapter(customAdapter);
+                                customAdapter.setCheckedListener(MyCartActivity.this);
+                            }
                         }
-                        if (book.getKey().equals("Sword Of Destiny")) {
-                            book_img.add(R.drawable.sword_of_destiny);
-                        }
-                        if (book.getKey().equals("Blood Of Elves")) {
-                            book_img.add(R.drawable.the_witcher_blood_of_elves);
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
                         }
-                        if (book.getKey().equals("The Tower Of The Swallow")) {
-                            book_img.add(R.drawable.the_witcher_the_tower_of_the_swallow);
-                        }
-                    }
-                    //--- Sending to the Adapter the current books and images ---\\
-                    customAdapter = new customAdapter(MyCartActivity.this,book_name,book_img);
-                    listView.setAdapter(customAdapter);
-                    customAdapter.setCheckedListener(MyCartActivity.this);
+                    });
 
+                } else {
+                    DatabaseReference reference = referenceProfile.child("Authors").child(firebaseUser.getUid()).child("Cart");
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    BookItem currBook = dataSnapshot.getValue(BookItem.class);
+                                    books.add(currBook);
+                                }
+                                customAdapter = new customAdapter(MyCartActivity.this,books);
+                                listView.setAdapter(customAdapter);
+                                customAdapter.setCheckedListener(MyCartActivity.this);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
-                progressBar.setVisibility(View.GONE);
-
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(MyCartActivity.this,"Something went wrong ! ",Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
+
             }
         });
-    }
+            }
+
+
+    // Check if the current book is mark \\
     @Override
     public void getCheckboxCheckedListener(int position) {
-        if(check_book != null && check_book.contains(book_name.get(position))){
-            check_book.remove(book_name.get(position));
-            check_img_book.remove(book_img.get(position));
+        if(check_book != null && check_book.contains(books.get(position))){
+            check_book.remove(books.get(position));
         }else {
-            check_book.add(book_name.get(position));
-            check_img_book.add(book_img.get(position));
+            check_book.add(books.get(position));
         }
 
     }
@@ -195,7 +207,7 @@ public boolean onCreateOptionsMenu(Menu menu) {
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_home){
-            Intent intent = new Intent(MyCartActivity.this,HomeActivity.class);
+            Intent intent = new Intent(MyCartActivity.this,NewHomeActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_log_out){

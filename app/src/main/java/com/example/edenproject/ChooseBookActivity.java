@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -28,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,8 +41,11 @@ public class ChooseBookActivity extends AppCompatActivity {
     private ImageView imageView;
     private Bundle extras;
     private Bitmap image;
+    private BookItem bookitem;
     private FirebaseAuth authProfile;
     private FirebaseUser firebaseUser;
+    private DatabaseReference referenceProfile;
+    private DatabaseReference databaseReference;
 
 
 
@@ -65,49 +70,90 @@ public class ChooseBookActivity extends AppCompatActivity {
 
 
         //--- Get the Image Drawable ---\\
+
+//        if (bundle != null) {
+//
+//            imageView = findViewById(R.id.imageView_profile_pic);
+//
+//            image = bundle.getParcelable("EXTRA_IMAGE");
+//            imageView.setImageBitmap(image);
+//
+//        }
+
         Bundle bundle = getIntent().getExtras();
-
-        if (bundle != null) {
-
+        if(bundle!=null){
             imageView = findViewById(R.id.imageView_profile_pic);
-
-            image = bundle.getParcelable("EXTRA_IMAGE");
-            imageView.setImageBitmap(image);
+            bookitem = (BookItem) bundle.getSerializable("BookItem");
+            Glide.with(this).load(bookitem.getUri()).into(imageView);
+            textViewBookTitle.setText(bookitem.getName());
 
         }
 
 
         //--- Get the Text ---\\
-        Intent intent = getIntent();
-        String text = intent.getStringExtra(HomeActivity.EXTRA_TEXT);
-        textViewBookTitle.setText(text);
-
+//        Intent intent = getIntent();
+//        String text = intent.getStringExtra(HomeActivity.EXTRA_TEXT);
+       // textViewBookTitle.setText(text);
 
         buttonAddToCart.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 //--- Add books to the cart in the database ---\\
-                BookItem currBook = new BookItem();
-                DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("users");
-                referenceProfile.child(firebaseUser.getUid()).child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
+                referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+                referenceProfile.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.exists() && snapshot.hasChild(text)){
-                            for( DataSnapshot dataSnapshot:snapshot.child(text).getChildren()){
-                                if(dataSnapshot.getValue().toString().equals(text)){
-                                    currBook.setName((String) dataSnapshot.getValue());
-                                }if(dataSnapshot.getKey().equals("quantity")){
-                                    currBook.setQuantity((int) ((Long)dataSnapshot.getValue()+1));
+                        if (snapshot.exists()) {
+                            referenceProfile.child(firebaseUser.getUid()).child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists() && snapshot.hasChild(bookitem.getName())) {
+                                        for (DataSnapshot dataSnapshot : snapshot.child(bookitem.getName()).getChildren()) {
+                                            if (dataSnapshot.getValue().toString().equals(bookitem.getName())) {
+                                                bookitem.setName((String) dataSnapshot.getValue());
+                                            }
+                                            if (dataSnapshot.getKey().equals("quantity")) {
+                                                bookitem.setQuantity((int) ((Long) dataSnapshot.getValue() + 1));
+                                            }
+                                        }
+                                    } else {
+                                        referenceProfile.child(firebaseUser.getUid()).child("Cart").child(bookitem.getName()).setValue(bookitem);
+                                    }
+
                                 }
-                            }
-                            referenceProfile.child(firebaseUser.getUid()).child("Cart").child(text).setValue(currBook);
-                        }else {
-                        BookItem bookItem = new BookItem(text,1);
-                        referenceProfile.child(firebaseUser.getUid()).child("Cart").child(text).setValue(bookItem);
-                    }
 
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
+                                }
+                            });
+
+                        } else {
+                            DatabaseReference reference = referenceProfile.child("Authors").child(firebaseUser.getUid()).child("Cart");
+                            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists() && snapshot.hasChild(bookitem.getName())) {
+                                        for (DataSnapshot dataSnapshot : snapshot.child(bookitem.getName()).getChildren()) {
+                                            if (dataSnapshot.getValue().toString().equals(bookitem.getName())) {
+                                                bookitem.setName((String) dataSnapshot.getValue());
+                                            }
+                                            if (dataSnapshot.getKey().equals("quantity")) {
+                                                bookitem.setQuantity((int) ((Long) dataSnapshot.getValue() + 1));
+                                            }
+                                        }
+                                    } else {
+                                        referenceProfile.child("Authors").child(firebaseUser.getUid()).child("Cart").child(bookitem.getName()).setValue(bookitem);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
                     }
 
                     @Override
@@ -115,10 +161,6 @@ public class ChooseBookActivity extends AppCompatActivity {
 
                     }
                 });
-                {
-
-
-                }
 
             }
         });
@@ -127,11 +169,29 @@ public class ChooseBookActivity extends AppCompatActivity {
 
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common_menu,menu);
+        FirebaseAuth authProfile = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = authProfile.getCurrentUser();
+        String userID= firebaseUser.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.child(userID).exists()){
+                    getMenuInflater().inflate(R.menu.author_menu,menu);
+                }else {
+                    getMenuInflater().inflate(R.menu.common_menu,menu);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override
@@ -141,12 +201,16 @@ public class ChooseBookActivity extends AppCompatActivity {
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);
-        }else if (id == R.id.menu_profile){
-            Intent intent = new Intent(ChooseBookActivity.this,ProfileActivity.class);
+        }else if (id == R.id.menu_new_book){
+            Intent intent = new Intent(ChooseBookActivity.this,AddBooksActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_home){
-            Intent intent = new Intent(ChooseBookActivity.this,HomeActivity.class);
+            Intent intent = new Intent(ChooseBookActivity.this,NewHomeActivity.class);
+            startActivity(intent);
+            finish();
+        }else if (id == R.id.menu_profile){
+            Intent intent = new Intent(ChooseBookActivity.this,ProfileActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_my_list){

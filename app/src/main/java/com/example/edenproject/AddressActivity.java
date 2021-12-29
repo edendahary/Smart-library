@@ -70,7 +70,7 @@ public class AddressActivity extends AppCompatActivity {
     private void showUserProfile(FirebaseUser firebaseUser){
         String userID= firebaseUser.getUid();
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -105,14 +105,35 @@ public class AddressActivity extends AppCompatActivity {
 
                 FirebaseAuth auth = FirebaseAuth.getInstance();
                 FirebaseUser firebaseUser = auth.getCurrentUser();
-                DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("users");
-                referenceProfile.child(firebaseUser.getUid()).child("Address").setValue(addressClass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
+                referenceProfile.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        startActivity(new Intent(AddressActivity.this,FullAddressActivity.class));
-                        finish();
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            referenceProfile.child(firebaseUser.getUid()).child("Address").setValue(addressClass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    startActivity(new Intent(AddressActivity.this,FullAddressActivity.class));
+                                    finish();
+                                }
+                            });
+                        }else {
+                            referenceProfile.child("Authors").child(firebaseUser.getUid()).child("Address").setValue(addressClass).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    startActivity(new Intent(AddressActivity.this,FullAddressActivity.class));
+                                    finish();
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
                     }
                 });
+
 
             }
         });

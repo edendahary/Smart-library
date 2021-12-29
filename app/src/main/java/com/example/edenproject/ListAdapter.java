@@ -13,21 +13,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
-public class ListAdapter extends ArrayAdapter<ArrayList<String>> {
+public class ListAdapter extends ArrayAdapter<BookItem> {
 
         private final Context context;
-        private ArrayList<String> book_name;
-        private ArrayList<Integer> imgid;
+        private ArrayList<BookItem> books;
 
-        public ListAdapter(@NonNull Context context, ArrayList data, ArrayList img) {
+        public ListAdapter(@NonNull Context context, ArrayList<BookItem> data) {
             super(context, R.layout.list_item2, data);
-            book_name = new ArrayList();
-            imgid = new ArrayList();
+            books = new ArrayList();
             this.context = context;
-            this.book_name = data;
-            this.imgid = img;
+            this.books = data;
         }
 
         @NonNull
@@ -35,7 +34,6 @@ public class ListAdapter extends ArrayAdapter<ArrayList<String>> {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             View row =convertView;
             ViewHolder holder =null;
-
 
             if (row == null) {
                 LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -45,8 +43,8 @@ public class ListAdapter extends ArrayAdapter<ArrayList<String>> {
             }else{
                 holder= (ViewHolder) row.getTag();
             }
-            holder.imageView.setImageResource(imgid.get(position));
-            holder.textView.setText(book_name.get(position));
+            Glide.with(context).load(books.get(position).getUri()).into(holder.imageView);
+            holder.textView.setText(books.get(position).getName());
             return row;
         }
 

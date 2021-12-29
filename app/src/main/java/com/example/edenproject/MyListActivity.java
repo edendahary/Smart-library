@@ -53,13 +53,13 @@ public class MyListActivity extends AppCompatActivity {
         firebaseUser = authProfile.getCurrentUser();
 
         progressBar.setVisibility(View.VISIBLE);
-        showUserBooks(firebaseUser);
+        showAuthorBooks(firebaseUser);
 
 
 
     }
 
-    private void showUserBooks(FirebaseUser firebaseUser) {
+    private void showAuthorBooks(FirebaseUser firebaseUser) {
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         databaseReference.child("Authors").child(firebaseUser.getUid()).child("Books").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -141,7 +141,7 @@ public class MyListActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_home){
-            startActivity(new Intent(MyListActivity.this, HomeActivity.class));
+            startActivity(new Intent(MyListActivity.this, NewHomeActivity.class));
             finish();
         }
         return super.onOptionsItemSelected(item);

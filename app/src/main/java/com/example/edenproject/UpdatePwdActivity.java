@@ -195,7 +195,7 @@ public class UpdatePwdActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else if(id == R.id.menu_home){
-            Intent intent = new Intent(UpdatePwdActivity.this,HomeActivity.class);
+            Intent intent = new Intent(UpdatePwdActivity.this,NewHomeActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_settings){

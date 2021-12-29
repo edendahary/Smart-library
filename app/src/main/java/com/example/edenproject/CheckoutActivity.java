@@ -37,8 +37,7 @@ public class CheckoutActivity extends AppCompatActivity{
     private ProgressBar progressBar;
     private ListView listView;
     private ListAdapter listAdapter;
-    private ArrayList<String>book_name;
-    private ArrayList<Integer>img;
+    private ArrayList<BookItem>books;
     private Button buttonNewCard;
     private RadioButton RadiobuttonCreditCard,RadiobuttonPaypal,RadiobuttonBit;
     private EditText editTextPaypal,editTextBit;
@@ -67,6 +66,7 @@ public class CheckoutActivity extends AppCompatActivity{
         RadiobuttonBit = findViewById(R.id.radio_bit);
         editTextPaypal = findViewById(R.id.editTextPaypal);
         editTextBit = findViewById(R.id.editTextBit);
+        books = new ArrayList<>();
 
 
 
@@ -96,7 +96,6 @@ public class CheckoutActivity extends AppCompatActivity{
                 editTextBit.setEnabled(false);
                 editTextBit.setBackground(gray);
                 editTextPaypal.setBackgroundResource(R.drawable.border);
-
             }
         });
         RadiobuttonBit.setOnClickListener(new View.OnClickListener() {
@@ -109,12 +108,10 @@ public class CheckoutActivity extends AppCompatActivity{
                 editTextBit.setBackgroundResource(R.drawable.border);
             }
         });
-
-        if(getIntent() != null && getIntent().getExtras() != null && getIntent().hasExtra(HomeActivity.EXTRA_BOOKS) &&
-                getIntent().hasExtra(HomeActivity.EXTRA_IMAGES)){
-             book_name = (ArrayList<String>) getIntent().getSerializableExtra(HomeActivity.EXTRA_BOOKS);
-             img = (ArrayList<Integer>) getIntent().getSerializableExtra(HomeActivity.EXTRA_IMAGES);
-             listAdapter = new ListAdapter(getApplicationContext(),book_name,img);
+        Bundle bundle = getIntent().getExtras();
+        if(getIntent() != null ){
+           books = (ArrayList<BookItem>) bundle.getSerializable("BookItem");
+             listAdapter = new ListAdapter(getApplicationContext(),books);
              listView.setAdapter(listAdapter);
         }
 
@@ -126,8 +123,6 @@ public class CheckoutActivity extends AppCompatActivity{
             }
         });
 
-
-
         authProfile = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
 
@@ -137,44 +132,41 @@ public class CheckoutActivity extends AppCompatActivity{
         progressBar.setVisibility(View.GONE);
     }
         private void showUserDetails(FirebaseUser firebaseUser){
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                UserClass ReadUserDetails = snapshot.getValue(UserClass.class);
-                if(ReadUserDetails != null){
-                    fullName = ReadUserDetails.getFull_name();
-                    Phone = ReadUserDetails.getPhone();
-                    textViewFullName.setText(fullName);
-                    textViewMobile.setText(Phone);
+                if(snapshot.exists()){
+                    UserClass ReadUserDetails = snapshot.getValue(UserClass.class);
+                    if(ReadUserDetails != null){
+                        fullName = ReadUserDetails.getFull_name();
+                        Phone = ReadUserDetails.getPhone();
+                        textViewFullName.setText(fullName);
+                        textViewMobile.setText(Phone);
+                    }else{
+                        progressBar.setVisibility(View.GONE);
+                    }
                 }else{
-                    progressBar.setVisibility(View.GONE);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(CheckoutActivity.this,"Something went wrong ! ",Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
-            }
-        });
-    }
-    private void  showAddress(FirebaseUser firebaseUser ) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
-        databaseReference.child(firebaseUser.getUid()).child("Address").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                AddressClass UserAddress = snapshot.getValue(AddressClass.class);
-                if (UserAddress != null) {
-                    Street = UserAddress.getStreet();
-                    City = UserAddress.getCity();
-                    County = UserAddress.getCounty();
-                    Zip = UserAddress.getPostal_Code();
-                    textViewStreet.setText(Street);
-                    textViewCity.setText(City);
-                    textViewCounty.setText(County);
-                    textViewZip.setText(Zip);
-                } else {
-                    progressBar.setVisibility(View.GONE);
+                    databaseReference.child("Authors").child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                UserClass ReadUserDetails = snapshot.getValue(UserClass.class);
+                                if (ReadUserDetails != null) {
+                                    fullName = ReadUserDetails.getFull_name();
+                                    Phone = ReadUserDetails.getPhone();
+                                    textViewFullName.setText(fullName);
+                                    textViewMobile.setText(Phone);
+                                } else {
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
             }
 
@@ -184,6 +176,77 @@ public class CheckoutActivity extends AppCompatActivity{
                 progressBar.setVisibility(View.GONE);
             }
         });
+    }
+    private void  showAddress(FirebaseUser firebaseUser ) {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    databaseReference.child(firebaseUser.getUid()).child("Address").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            AddressClass UserAddress = snapshot.getValue(AddressClass.class);
+                            if (UserAddress != null) {
+                                Street = UserAddress.getStreet();
+                                City = UserAddress.getCity();
+                                County = UserAddress.getCounty();
+                                Zip = UserAddress.getPostal_Code();
+                                textViewStreet.setText(Street);
+                                textViewCity.setText(City);
+                                textViewCounty.setText(County);
+                                textViewZip.setText(Zip);
+                            } else {
+                                progressBar.setVisibility(View.GONE);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(CheckoutActivity.this,"Something went wrong ! ",Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    });
+                }else{
+                    databaseReference.child("Authors").child(firebaseUser.getUid()).child("Address").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()){
+                                AddressClass UserAddress = snapshot.getValue(AddressClass.class);
+                                if (UserAddress != null) {
+                                    Street = UserAddress.getStreet();
+                                    City = UserAddress.getCity();
+                                    County = UserAddress.getCounty();
+                                    Zip = UserAddress.getPostal_Code();
+                                    textViewStreet.setText(Street);
+                                    textViewCity.setText(City);
+                                    textViewCounty.setText(County);
+                                    textViewZip.setText(Zip);
+                                } else {
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+
+
 
     }
 

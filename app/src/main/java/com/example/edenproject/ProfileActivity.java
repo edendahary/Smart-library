@@ -109,7 +109,45 @@ public class ProfileActivity extends AppCompatActivity {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(!snapshot.child(userID).exists()){
+                if(snapshot.child(userID).exists()){
+                    databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            ReadUserDetails = snapshot.getValue(UserClass.class);
+                            if(ReadUserDetails != null){
+                                fullname= ReadUserDetails.getFull_name();
+                                email = authProfile.getCurrentUser().getEmail();
+                                dob = ReadUserDetails.getDob();
+                                gender = ReadUserDetails.getGender();
+                                mobile = ReadUserDetails.getPhone();
+                                textViewWelcome.setText("Welcome, " + fullname+ "!");
+                                textViewFullName.setText(fullname);
+                                textViewEmail.setText(email);
+                                textViewDoB.setText(dob);
+                                textViewGender.setText(gender);
+                                textViewMobile.setText(mobile);
+                                progressBar = findViewById(R.id.progressBar);
+
+                                Uri uri = firebaseUser.getPhotoUrl();
+                                Picasso.get().load(uri).into(imageView);
+
+                            }else{
+                                Toast.makeText(ProfileActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                            }
+                            progressBar.setVisibility(View.GONE);
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(ProfileActivity.this,"Something went wrong ! ",Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+
+                        }
+                    });
+
+
+                }else{
                     databaseReference = FirebaseDatabase.getInstance().getReference("Users").child("Authors");
                     databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -147,42 +185,6 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     });
 
-                }else{
-                    databaseReference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            ReadUserDetails = snapshot.getValue(UserClass.class);
-                            if(ReadUserDetails != null){
-                                fullname= ReadUserDetails.getFull_name();
-                                email = authProfile.getCurrentUser().getEmail();
-                                dob = ReadUserDetails.getDob();
-                                gender = ReadUserDetails.getGender();
-                                mobile = ReadUserDetails.getPhone();
-                                textViewWelcome.setText("Welcome, " + fullname+ "!");
-                                textViewFullName.setText(fullname);
-                                textViewEmail.setText(email);
-                                textViewDoB.setText(dob);
-                                textViewGender.setText(gender);
-                                textViewMobile.setText(mobile);
-                                progressBar = findViewById(R.id.progressBar);
-
-                                Uri uri = firebaseUser.getPhotoUrl();
-                                Picasso.get().load(uri).into(imageView);
-
-                            }else{
-                                Toast.makeText(ProfileActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
-                            }
-                            progressBar.setVisibility(View.GONE);
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(ProfileActivity.this,"Something went wrong ! ",Toast.LENGTH_LONG).show();
-                            progressBar.setVisibility(View.GONE);
-
-                        }
-                    });
 
                 }
 
@@ -251,7 +253,7 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_home){
-            startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
+            startActivity(new Intent(ProfileActivity.this, NewHomeActivity.class));
             finish();
         }
         return super.onOptionsItemSelected(item);

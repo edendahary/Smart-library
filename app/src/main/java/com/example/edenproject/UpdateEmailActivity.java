@@ -202,7 +202,7 @@ public class UpdateEmailActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else if(id == R.id.menu_home){
-            Intent intent = new Intent(UpdateEmailActivity.this,HomeActivity.class);
+            Intent intent = new Intent(UpdateEmailActivity.this,NewHomeActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_settings){
