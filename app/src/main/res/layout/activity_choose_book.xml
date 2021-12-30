@@ -19,11 +19,12 @@
             android:id="@+id/textView_book_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#c9c2c2"
             android:text="book title"
+            android:gravity="center"
             android:textAlignment="center"
-            android:textSize="40sp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:background="#c9c2c2"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="40sp" />
 
 
         <ImageView

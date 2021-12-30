@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -40,7 +42,8 @@ public class UploadProfilePicActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_profile_pic);
 
-
+        ColorDrawable cd = new ColorDrawable(Color.parseColor("#c1461d"));
+        getSupportActionBar().setBackgroundDrawable(cd);
         getSupportActionBar().setTitle("Upload Profile Picture");
 
 

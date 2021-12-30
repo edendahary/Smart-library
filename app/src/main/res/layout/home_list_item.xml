@@ -12,17 +12,19 @@
 
         <ImageButton
             android:id="@+id/imageButton_image"
-            android:layout_width="100dp"
+            android:layout_width="70dp"
             android:layout_height="100dp"
             android:layout_marginTop="10dp"
             android:adjustViewBounds="true"
+            style="?android:attr/borderlessButtonStyle"
             android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/textView_Text"
-            android:layout_width="wrap_content"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:text="android"
+
             android:textSize="20sp"
             android:textStyle="bold" />
 

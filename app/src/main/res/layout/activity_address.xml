@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HomeActivity"
-    android:background="#5dc3fc">
+    android:background="#c1461d">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -107,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_below="@+id/editText_Address_Street"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="18dp"
                 android:background="@drawable/border"
                 android:hint="Enter your Postal Code"
                 android:inputType="textPostalAddress"
@@ -122,15 +122,19 @@
                 android:id="@+id/progressBar"
                 android:elevation="10dp"
                 android:visibility="gone"/>
-    </RelativeLayout>
-        <Button
-            android:id="@+id/button_add_address"
-            android:layout_width="200dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="100dp"
-            android:text="Add Address"
-            />
 
+            <Button
+                android:id="@+id/button_add_address"
+                android:layout_width="200dp"
+                android:layout_below="@+id/editText_Address_Postal_Code"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="100dp"
+                android:backgroundTint="#c1461d"
+                android:text="Add Address" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

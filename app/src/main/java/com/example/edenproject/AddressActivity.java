@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +34,7 @@ public class AddressActivity extends AppCompatActivity {
     private FirebaseAuth authProfile;
     private ProgressBar progressBar;
     private Button add_Address;
+    private DatabaseReference databaseReference;
 
 
 
@@ -39,9 +42,8 @@ public class AddressActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_address);
-
-
-
+        ColorDrawable cd = new ColorDrawable(Color.parseColor("#c1461d"));
+        getSupportActionBar().setBackgroundDrawable(cd);
         getSupportActionBar().setTitle("My Address");
 
 
@@ -140,33 +142,61 @@ public class AddressActivity extends AppCompatActivity {
 
 
     }
-
+    //--- Menu ToolBar---\\
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common_menu,menu);
+        FirebaseAuth authProfile = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = authProfile.getCurrentUser();
+        String userID= firebaseUser.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.child(userID).exists()){
+                    getMenuInflater().inflate(R.menu.author_menu,menu);
+                }else {
+                    getMenuInflater().inflate(R.menu.common_menu,menu);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.menu_refresh){
+        if(id == R.id.menu_refresh ){
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);
-        }else if (id == R.id.menu_profile){
-            Intent intent = new Intent(AddressActivity.this,ProfileActivity.class);
+        }else if(id == R.id.menu_my_list){
+            Intent intent = new Intent(AddressActivity.this,MyListActivity.class);
             startActivity(intent);
             finish();
-        }else if (id == R.id.menu_my_list){
-            Intent intent = new Intent(AddressActivity.this,MyListActivity.class);
+        }else if(id == R.id.menu_new_book){
+            Intent intent = new Intent(AddressActivity.this,AddBooksActivity.class);
+            startActivity(intent);
+            finish();
+        }else if (id == R.id.menu_profile){
+            Intent intent = new Intent(AddressActivity.this,ProfileActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_settings){
             Intent intent = new Intent(AddressActivity.this,SettingsActivity.class);
             startActivity(intent);
             finish();
-        }else if (id == R.id.menu_log_out){
+        }else if (id == R.id.menu_cart){
+            Intent intent = new Intent(AddressActivity.this,MyCartActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else if (id == R.id.menu_log_out){
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(AddressActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(AddressActivity.this,LoginActivity.class);
@@ -174,7 +204,7 @@ public class AddressActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_home){
-            startActivity(new Intent(AddressActivity.this, HomeActivity.class));
+            startActivity(new Intent(AddressActivity.this, NewHomeActivity.class));
             finish();
         }
         return super.onOptionsItemSelected(item);

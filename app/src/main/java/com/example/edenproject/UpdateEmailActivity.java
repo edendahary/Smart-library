@@ -38,6 +38,7 @@ public class UpdateEmailActivity extends AppCompatActivity {
     private Button buttonChangeEmail,buttonReAuthenticated;
     private ProgressBar progressBar;
     private String userPwd;
+    private DatabaseReference databaseReference;
 
 
     private FirebaseAuth authProfile;
@@ -108,7 +109,9 @@ public class UpdateEmailActivity extends AppCompatActivity {
                                 buttonChangeEmail.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        showAlertDialog();
+                                        if(editTextNewEmail!=null){
+                                            showAlertDialog();
+                                        }
                                     }
                                 });
                             }else{
@@ -134,7 +137,7 @@ public class UpdateEmailActivity extends AppCompatActivity {
         builder.setPositiveButton("Continue ", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ChangeUserPwd(firebaseUser);
+                ChangeUserEmail(firebaseUser);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -158,11 +161,40 @@ public class UpdateEmailActivity extends AppCompatActivity {
 
     }
 
-    private void ChangeUserPwd(FirebaseUser firebaseUser) {
+    private void ChangeUserEmail(FirebaseUser firebaseUser) {
         firebaseUser.updateEmail(editTextNewEmail.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
+                    databaseReference.child("Users").child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.exists()){
+                                UserClass userClass = snapshot.getValue(UserClass.class);
+                                userClass.setEmail(editTextNewEmail.getText().toString());
+                            }else {
+                                databaseReference.child("Users").child("Authors").child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if(snapshot.exists()) {
+                                            UserClass userClass = snapshot.getValue(UserClass.class);
+                                            userClass.setEmail(editTextNewEmail.getText().toString());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                     authProfile.signOut();
                     Toast.makeText(UpdateEmailActivity.this, "Your email has been changed!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(UpdateEmailActivity.this,LoginActivity.class);
@@ -182,31 +214,49 @@ public class UpdateEmailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common_menu,menu);
+        FirebaseAuth authProfile = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = authProfile.getCurrentUser();
+        String userID= firebaseUser.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.child(userID).exists()){
+                    getMenuInflater().inflate(R.menu.author_menu,menu);
+                }else {
+                    getMenuInflater().inflate(R.menu.common_menu,menu);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.menu_refresh ){
+        if(id == R.id.menu_refresh || id == R.id.menu_settings){
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);
-        }else if (id == R.id.menu_profile){
-            Intent intent = new Intent(UpdateEmailActivity.this,ProfileActivity.class);
+        }else if (id == R.id.menu_new_book){
+            Intent intent = new Intent(UpdateEmailActivity.this,AddBooksActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_my_list){
             Intent intent = new Intent(UpdateEmailActivity.this,MyListActivity.class);
             startActivity(intent);
             finish();
-        }else if(id == R.id.menu_home){
-            Intent intent = new Intent(UpdateEmailActivity.this,NewHomeActivity.class);
+        }else if(id == R.id.menu_cart) {
+            Intent intent = new Intent(UpdateEmailActivity.this,MyCartActivity.class);
             startActivity(intent);
             finish();
-        }else if (id == R.id.menu_settings){
-            Intent intent = new Intent(UpdateEmailActivity.this,SettingsActivity.class);
+        }else if (id == R.id.menu_profile){
+            Intent intent = new Intent(UpdateEmailActivity.this,ProfileActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_log_out){
@@ -215,6 +265,9 @@ public class UpdateEmailActivity extends AppCompatActivity {
             Intent intent = new Intent(UpdateEmailActivity.this,LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK );
             startActivity(intent);
+            finish();
+        }else if (id == R.id.menu_home){
+            startActivity(new Intent(UpdateEmailActivity.this, NewHomeActivity.class));
             finish();
         }
         return super.onOptionsItemSelected(item);

@@ -136,7 +136,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_below="@+id/radio_group_register_gender"
-            android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:background="@drawable/border" />
@@ -228,8 +227,8 @@
             android:layout_marginLeft="70dp"
             android:layout_marginTop="50dp"
             android:layout_marginRight="70dp"
-            android:text="Register"
-            android:backgroundTint="#c1461d"/>
+            android:backgroundTint="#c1461d"
+            android:text="Register" />
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

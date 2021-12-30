@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,11 +29,13 @@ public class FullAddressActivity extends AppCompatActivity {
     private String fullname,country,city,street,postal_code;
     private FirebaseAuth authProfile;
     private ProgressBar progressBar;
+    private DatabaseReference databaseReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_address);
-
+        ColorDrawable cd = new ColorDrawable(Color.parseColor("#c1461d"));
+        getSupportActionBar().setBackgroundDrawable(cd);
         getSupportActionBar().setTitle("Address Details");
 
         button_edit_address = findViewById(R.id.button_edit_address);
@@ -180,32 +184,61 @@ public class FullAddressActivity extends AppCompatActivity {
 
 
     }
+    //--- Menu ToolBar---\\
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common_menu,menu);
+        FirebaseAuth authProfile = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = authProfile.getCurrentUser();
+        String userID= firebaseUser.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.child(userID).exists()){
+                    getMenuInflater().inflate(R.menu.author_menu,menu);
+                }else {
+                    getMenuInflater().inflate(R.menu.common_menu,menu);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.menu_refresh){
+        if(id == R.id.menu_refresh ){
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);
-        }else if (id == R.id.menu_profile){
-            Intent intent = new Intent(FullAddressActivity.this,ProfileActivity.class);
+        }else if(id == R.id.menu_my_list){
+            Intent intent = new Intent(FullAddressActivity.this,MyListActivity.class);
             startActivity(intent);
             finish();
-        }else if (id == R.id.menu_my_list){
-            Intent intent = new Intent(FullAddressActivity.this,MyListActivity.class);
+        }else if(id == R.id.menu_new_book){
+            Intent intent = new Intent(FullAddressActivity.this,AddBooksActivity.class);
+            startActivity(intent);
+            finish();
+        }else if (id == R.id.menu_profile){
+            Intent intent = new Intent(FullAddressActivity.this,ProfileActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_settings){
             Intent intent = new Intent(FullAddressActivity.this,SettingsActivity.class);
             startActivity(intent);
             finish();
-        }else if (id == R.id.menu_log_out){
+        }else if (id == R.id.menu_cart){
+            Intent intent = new Intent(FullAddressActivity.this,MyCartActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else if (id == R.id.menu_log_out){
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(FullAddressActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(FullAddressActivity.this,LoginActivity.class);
@@ -213,7 +246,7 @@ public class FullAddressActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_home){
-            startActivity(new Intent(FullAddressActivity.this, HomeActivity.class));
+            startActivity(new Intent(FullAddressActivity.this, NewHomeActivity.class));
             finish();
         }
         return super.onOptionsItemSelected(item);

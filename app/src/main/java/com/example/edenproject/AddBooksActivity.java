@@ -1,5 +1,6 @@
 package com.example.edenproject;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -61,6 +63,7 @@ public class AddBooksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_books);
         ColorDrawable cd = new ColorDrawable(Color.parseColor("#c1461d"));
         getSupportActionBar().setBackgroundDrawable(cd);
+        getSupportActionBar().setTitle("Add New Book");
 
         imageButtonBookAddImage = findViewById(R.id.imageButton_add_image_book);
         buttonAddBook = findViewById(R.id.button_add_book);
@@ -91,14 +94,15 @@ public class AddBooksActivity extends AppCompatActivity {
 
             }
         });
-        //--- Get the uri ---\\
 
-        if(getIntent() != null) {
+        //--- Get the uri ---\\
+        if(getIntent() != null && getIntent().getStringExtra("uri") != null) {
             Intent intent1 = getIntent();
             image = intent1.getStringExtra("uri");
             Glide.with(AddBooksActivity.this).load(image).into(imageButtonBookAddImage);
+        }else{
+            Glide.with(AddBooksActivity.this).load(R.drawable.ic_image_book).into(imageButtonBookAddImage);
         }
-
 
 
         buttonAddBook.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +117,7 @@ public class AddBooksActivity extends AppCompatActivity {
                     Toast.makeText(AddBooksActivity.this, "Please enter book name", Toast.LENGTH_SHORT).show();
                     editTextBookName.setError("Full Book Name is required");
                     editTextBookName.requestFocus();
-                } else if((textAuthorName).matches(".*\\d.*")){
+                }else if((textAuthorName).matches(".*\\d.*")){
                     Toast.makeText(AddBooksActivity.this, "Please enter author name with no numbers", Toast.LENGTH_SHORT).show();
                     editTextAuthorName.setError("Author Book Name is required(No Digits)");
                     editTextAuthorName.requestFocus();
@@ -206,7 +210,7 @@ public class AddBooksActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_home){
-            Intent intent = new Intent(AddBooksActivity.this,HomeActivity.class);
+            Intent intent = new Intent(AddBooksActivity.this,NewHomeActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_log_out){

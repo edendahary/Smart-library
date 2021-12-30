@@ -133,7 +133,12 @@ public class MyListActivity extends AppCompatActivity {
             Intent intent = new Intent(MyListActivity.this,SettingsActivity.class);
             startActivity(intent);
             finish();
-        }else if (id == R.id.menu_log_out){
+        }else if (id == R.id.menu_cart){
+            Intent intent = new Intent(MyListActivity.this,MyCartActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else if (id == R.id.menu_log_out){
             FirebaseAuth.getInstance().signOut();
             Toast.makeText(MyListActivity.this, "Logged Out", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(MyListActivity.this,LoginActivity.class);

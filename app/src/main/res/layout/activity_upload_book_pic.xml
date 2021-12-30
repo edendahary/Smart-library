@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".UploadBookPicActivity"
-    android:background="#5dc3fc">
+    android:background="#c1461d">
 
 
     <RelativeLayout
@@ -25,14 +25,15 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
         <Button
+            android:id="@+id/button_upload_pic_choose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button_upload_pic_choose"
-            android:layout_below = "@+id/textView_upload_pic_head"
+            android:layout_below="@+id/textView_upload_pic_head"
+            android:layout_marginLeft="70dp"
             android:layout_marginTop="20dp"
-            android:text="Choose Picture"
+            android:backgroundTint="#c1461d"
             android:layout_marginRight="70dp"
-            android:layout_marginLeft="70dp"/>
+            android:text="Choose Picture" />
 
         <ImageView
             android:id="@+id/imageView_book_pic"
@@ -43,14 +44,15 @@
             android:background="@drawable/border" />
 
         <Button
+            android:id="@+id/button_upload_pic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button_upload_pic"
             android:layout_below="@+id/imageView_book_pic"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="70dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="70dp"
-            android:text="Upload"/>
+            android:backgroundTint="#c1461d"
+            android:text="Upload" />
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

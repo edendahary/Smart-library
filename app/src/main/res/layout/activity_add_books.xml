@@ -17,12 +17,12 @@
 
             <ImageButton
                 android:id="@+id/imageButton_add_image_book"
-                android:layout_width="100dp"
+                android:layout_width="70dp"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_height="100dp"
                 android:layout_marginTop="50dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/border"/>
+                android:scaleType="centerCrop" />
 
             <EditText
                 android:id="@+id/editText_book_name"
@@ -95,17 +95,17 @@
             android:layout_height="match_parent">
 
             <EditText
+                android:id="@+id/editText_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|start"
+                android:hint="Enter Description"
                 android:inputType="textMultiLine"
                 android:lines="8"
-                android:minLines="6"
-                android:gravity="top|start"
                 android:maxLines="10"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:scrollbars="vertical"
-                android:id="@+id/editText_description"
-                android:hint="Enter Description"
-                android:padding="6dp" />
+                android:minLines="6"
+                android:padding="6dp"
+                android:scrollbars="vertical" />
 
         </RelativeLayout>
 

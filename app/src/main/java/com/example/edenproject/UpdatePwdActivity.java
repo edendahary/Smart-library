@@ -26,6 +26,11 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class UpdatePwdActivity extends AppCompatActivity {
     private FirebaseAuth authProfile;
@@ -33,6 +38,7 @@ public class UpdatePwdActivity extends AppCompatActivity {
     private EditText editTextCurrPwd,editTextNewPwd;
     private TextView textViewAuthenticated;
     private ProgressBar progressBar;
+    private DatabaseReference databaseReference;
     private String userPwd;
     private Button buttonReAuthenticated, buttonChangePwd;
 
@@ -175,31 +181,49 @@ public class UpdatePwdActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common_menu,menu);
+        FirebaseAuth authProfile = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = authProfile.getCurrentUser();
+        String userID= firebaseUser.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.child(userID).exists()){
+                    getMenuInflater().inflate(R.menu.author_menu,menu);
+                }else {
+                    getMenuInflater().inflate(R.menu.common_menu,menu);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.menu_refresh ){
+        if(id == R.id.menu_refresh || id == R.id.menu_settings){
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);
-        }else if (id == R.id.menu_profile){
-            Intent intent = new Intent(UpdatePwdActivity.this,ProfileActivity.class);
+        }else if (id == R.id.menu_new_book){
+            Intent intent = new Intent(UpdatePwdActivity.this,AddBooksActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_my_list){
             Intent intent = new Intent(UpdatePwdActivity.this,MyListActivity.class);
             startActivity(intent);
             finish();
-        }else if(id == R.id.menu_home){
-            Intent intent = new Intent(UpdatePwdActivity.this,NewHomeActivity.class);
+        }else if(id == R.id.menu_cart) {
+            Intent intent = new Intent(UpdatePwdActivity.this,MyCartActivity.class);
             startActivity(intent);
             finish();
-        }else if (id == R.id.menu_settings){
-            Intent intent = new Intent(UpdatePwdActivity.this,SettingsActivity.class);
+        }else if (id == R.id.menu_profile){
+            Intent intent = new Intent(UpdatePwdActivity.this,ProfileActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_log_out){
@@ -208,6 +232,9 @@ public class UpdatePwdActivity extends AppCompatActivity {
             Intent intent = new Intent(UpdatePwdActivity.this,LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK );
             startActivity(intent);
+            finish();
+        }else if (id == R.id.menu_home){
+            startActivity(new Intent(UpdatePwdActivity.this, NewHomeActivity.class));
             finish();
         }
         return super.onOptionsItemSelected(item);

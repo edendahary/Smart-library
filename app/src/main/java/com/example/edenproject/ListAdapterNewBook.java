@@ -56,7 +56,7 @@ public class ListAdapterNewBook extends ArrayAdapter<ArrayList<BookItem>> {
             }else{
                 holder= (com.example.edenproject.ViewHolder) row.getTag();
             }
-                Glide.with(context).load(book_name.get(position).getUri()).into(holder.imageView);
+                Glide.with(context).load(book_name.get(position).getUri()).centerCrop().into(holder.imageView);
                 holder.textView.setText(book_name.get(position).getName());
                 holder.Author_name.setText(book_name.get(position).getAuthorName());
                 holder.Category.setText(book_name.get(position).getCategory());

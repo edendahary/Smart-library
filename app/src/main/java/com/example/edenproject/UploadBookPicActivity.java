@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,8 +45,6 @@ public class UploadBookPicActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_book_pic);
-
-
         getSupportActionBar().setTitle("Upload Book Picture");
         ColorDrawable cd = new ColorDrawable(Color.parseColor("#c1461d"));
         getSupportActionBar().setBackgroundDrawable(cd);
@@ -147,7 +146,8 @@ public class UploadBookPicActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null){
             uriImage = data.getData();
-            imageViewUploadBookPic.setImageURI(uriImage);
+            Glide.with(this).load(uriImage).centerCrop()
+                    .into(imageViewUploadBookPic);
         }
     }
 }
