@@ -6,7 +6,10 @@ import java.io.Serializable;
 
 public class BookItem implements Serializable {
     private String Name,AuthorName,Category,PublicationDate,Description,Uri;
-    private int quantity;
+    private int quantity,price,Pages;
+    private String Uid;
+
+
 
     public BookItem(){
 
@@ -16,7 +19,7 @@ public class BookItem implements Serializable {
         this.quantity = quantity;
     }
 
-    public BookItem(String name, String authorName, String category, String publicationDate, String description, int pages,String uri) {
+    public BookItem(String name, String authorName, String category, String publicationDate, String description, int pages,String uri,int price,String Uid) {
         Name = name;
         AuthorName = authorName;
         Category = category;
@@ -24,7 +27,17 @@ public class BookItem implements Serializable {
         Description = description;
         Pages = pages;
         quantity = 1;
+        this.price = price;
         this.Uri = uri;
+        this.Uid = Uid;
+    }
+
+    public String getUid() {
+        return Uid;
+    }
+
+    public void setUid(String uid) {
+        Uid = uid;
     }
 
     public String getUri() {
@@ -75,7 +88,13 @@ public class BookItem implements Serializable {
         Pages = pages;
     }
 
-    private int Pages;
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
     public String getName() {
         return Name;

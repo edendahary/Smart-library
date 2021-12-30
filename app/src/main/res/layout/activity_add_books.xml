@@ -84,10 +84,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_below="@+id/editText_language"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="-2dp"
                 android:layout_toRightOf="@+id/imageButton_add_image_book"
                 android:background="@drawable/border"
                 android:hint="Enter Category Book"
                 android:padding="6dp" />
+
+            <EditText
+                android:id="@+id/editText_price_book"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/editText_category_book"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="-2dp"
+                android:layout_toRightOf="@+id/imageButton_add_image_book"
+                android:background="@drawable/border"
+                android:hint="Enter Book Price"
+                android:padding="6dp" />
+
         </RelativeLayout>
 
         <RelativeLayout

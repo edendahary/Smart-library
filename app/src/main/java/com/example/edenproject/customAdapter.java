@@ -49,8 +49,8 @@ public class customAdapter extends ArrayAdapter <BookItem> {
             holder= (MyViewHolder) row.getTag();
         }
         Glide.with(context).load(books.get(position).getUri()).into(holder.imageView);
-        //holder.imageView.setImageResource(imgid.get(position));
         holder.textView.setText(books.get(position).getName());
+
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

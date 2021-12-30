@@ -69,16 +69,6 @@ public class ChooseBookActivity extends AppCompatActivity {
         textViewBookTitle = findViewById(R.id.textView_book_title);
 
 
-        //--- Get the Image Drawable ---\\
-
-//        if (bundle != null) {
-//
-//            imageView = findViewById(R.id.imageView_profile_pic);
-//
-//            image = bundle.getParcelable("EXTRA_IMAGE");
-//            imageView.setImageBitmap(image);
-//
-//        }
 
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null){
@@ -90,10 +80,6 @@ public class ChooseBookActivity extends AppCompatActivity {
         }
 
 
-        //--- Get the Text ---\\
-//        Intent intent = getIntent();
-//        String text = intent.getStringExtra(HomeActivity.EXTRA_TEXT);
-       // textViewBookTitle.setText(text);
 
         buttonAddToCart.setOnClickListener(new View.OnClickListener() {
 

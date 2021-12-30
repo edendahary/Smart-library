@@ -10,6 +10,30 @@
         android:id="@+id/card_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/text_sum_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_buy"
+        android:layout_marginStart="130dp"
+        android:layout_marginBottom="24dp"
+        android:text="Price :"
+        android:textSize="26sp"
+        android:src = "@drawable/border"/>
+
+    <TextView
+        android:id="@+id/textView_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button_buy"
+        android:layout_marginBottom="24dp"
+        android:layout_toRightOf="@+id/text_sum_price"
+        android:gravity="center"
+        android:src="@drawable/border"
+        android:text="Sum"
+        android:textSize="26sp" />
+
     <Button
         android:id="@+id/button_buy"
         android:layout_width="match_parent"

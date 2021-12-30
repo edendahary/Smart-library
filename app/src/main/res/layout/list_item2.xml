@@ -12,47 +12,44 @@
             android:id="@+id/imageView_book"
             android:layout_width="70dp"
             android:layout_height="100dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp" />
+            android:layout_centerVertical="true" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/textView_book_name"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
                 android:text="Book Name"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/textView_book_author_name"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView_book_name"
-                android:layout_marginStart="20dp"
                 android:text="Author Name"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/textView_book_publication_date"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView_book_author_name"
-                android:layout_marginStart="20dp"
+                android:inputType="date"
                 android:text="Publication Date"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                android:inputType="date"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textView_book_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="20dp"
                 android:layout_toRightOf="@+id/textView_book_name"
                 android:text="Category"
                 android:textColor="@color/black"
@@ -64,11 +61,63 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textView_book_category"
                 android:layout_marginStart="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="6dp"
                 android:layout_toRightOf="@+id/textView_book_author_name"
                 android:inputType="number"
                 android:text="Pages"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView_book_author_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView_book_pages"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="21dp"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/textView_book_publication_date"
+                android:text="Price"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView_book_author_sold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginLeft="34dp"
+                android:layout_toRightOf="@+id/textView_book_category"
+                android:text="Sold"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView_book_author_sold_count"
+                android:layout_width="62dp"
+                android:layout_height="38dp"
+                android:layout_below="@+id/textView_book_author_sold"
+                android:layout_marginStart="50dp"
+                android:layout_marginLeft="31dp"
+                android:layout_marginTop="23dp"
+                android:layout_toRightOf="@+id/textView_book_category"
+                android:text="Sold Amount"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <ImageButton
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="56dp"
+                android:id="@+id/button_delete_book"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_toRightOf="@+id/textView_book_author_sold"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_delete_button" />
+
 
         </RelativeLayout>
 

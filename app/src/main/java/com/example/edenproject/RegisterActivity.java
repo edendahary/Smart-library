@@ -178,8 +178,9 @@ public class RegisterActivity extends AppCompatActivity {
                 if (task.isSuccessful()){
                     Toast.makeText(RegisterActivity.this, "Registering User Successful", Toast.LENGTH_SHORT).show();
                     FirebaseUser firebaseUser = auth.getCurrentUser();
+                    String UIDAUTHOR = firebaseUser.getUid();
                     if(Author == true){
-                        author = new AuthorClass(textFullName, textEmail, textDob, textMobile, textGender);
+                        author = new AuthorClass(textFullName, textEmail, textDob, textMobile, textGender,UIDAUTHOR);
                         DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users").child("Authors");
                         referenceProfile.child(firebaseUser.getUid()).setValue(author).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override

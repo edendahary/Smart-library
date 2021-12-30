@@ -54,7 +54,7 @@ public class AddBooksActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FirebaseUser firebaseUser;
     private Button buttonAddBook;
-    private EditText editTextAuthorName,
+    private EditText editTextAuthorName,editTextBookPrice,
             editTextPages, editTextBookName, editTextCategoryName, EditTextPublicationDate, editTextDescription;
 
     @Override
@@ -74,7 +74,7 @@ public class AddBooksActivity extends AppCompatActivity {
 
 
 
-
+        editTextBookPrice = findViewById(R.id.editText_price_book);
         editTextAuthorName = findViewById(R.id.editText_author_name);
         editTextPages = findViewById(R.id.editText_pages);
         editTextBookName = findViewById(R.id.editText_book_name);
@@ -108,6 +108,7 @@ public class AddBooksActivity extends AppCompatActivity {
         buttonAddBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String textBookName = editTextBookName.getText().toString();
                 String textAuthorName = editTextAuthorName.getText().toString();
                 String textCategory = editTextCategoryName.getText().toString();
@@ -135,9 +136,12 @@ public class AddBooksActivity extends AppCompatActivity {
                     editTextDescription.requestFocus();
                 } else {
                     String pages = editTextPages.getText().toString();
+                    String Price = editTextBookPrice.getText().toString();
                     int page = Integer.parseInt(pages);
+                    int price = Integer.parseInt(Price);
                     progressBar.setVisibility(View.VISIBLE);
-                    BookItem book = new BookItem(textBookName, textAuthorName, textCategory, textPublicationDate, textDescription, page,image);
+                    String Uid = firebaseUser.getUid();
+                    BookItem book = new BookItem(textBookName, textAuthorName, textCategory, textPublicationDate, textDescription, page,image,price,Uid);
 
                     DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Users");
                     DatabaseReference referenceBooks = FirebaseDatabase.getInstance().getReference("AllBooks");

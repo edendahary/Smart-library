@@ -42,6 +42,7 @@ public class CheckoutActivity extends AppCompatActivity{
     private RadioButton RadiobuttonCreditCard,RadiobuttonPaypal,RadiobuttonBit;
     private EditText editTextPaypal,editTextBit;
     private DatabaseReference databaseReference;
+    private Bundle extras;
 
 
     @Override
@@ -110,15 +111,19 @@ public class CheckoutActivity extends AppCompatActivity{
         });
         Bundle bundle = getIntent().getExtras();
         if(getIntent() != null ){
-           books = (ArrayList<BookItem>) bundle.getSerializable("BookItem");
+             books = (ArrayList<BookItem>) bundle.getSerializable("BookItem");
              listAdapter = new ListAdapter(getApplicationContext(),books);
              listView.setAdapter(listAdapter);
+
         }
 
         buttonNewCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CheckoutActivity.this,CreditCardActivity.class);
+                extras = new Bundle ();
+                extras.putSerializable("Books",books);
+                intent.putExtras(extras);
                 startActivity(intent);
             }
         });

@@ -55,6 +55,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         ImageButton imageView;
         private BookItem bookItem;
         TextView textView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
