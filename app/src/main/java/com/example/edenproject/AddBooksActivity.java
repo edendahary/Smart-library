@@ -149,6 +149,7 @@ public class AddBooksActivity extends AppCompatActivity {
                     referenceProfile.child("Authors").child(firebaseUser.getUid()).child("Books").child(book.getName()).setValue(book).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(AddBooksActivity.this, "Book has been added to your list.", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(AddBooksActivity.this, MyListActivity.class);
                             startActivity(intent);
                             finish();

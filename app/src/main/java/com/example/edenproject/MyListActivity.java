@@ -83,6 +83,7 @@ public class MyListActivity extends AppCompatActivity {
 
     private void ShowOnList(ArrayList<BookItem> books) {
         listAdapterNewBook = new ListAdapterNewBook(getApplicationContext(),books);
+        listAdapterNewBook.notifyDataSetChanged();
         listView.setAdapter(listAdapterNewBook);
         progressBar.setVisibility(View.GONE);
     }

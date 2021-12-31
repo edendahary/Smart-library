@@ -10,6 +10,9 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.EdenProject">
         <activity
+            android:name=".HistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".NewHomeActivity"
             android:exported="false" />
         <activity

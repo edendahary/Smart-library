@@ -89,8 +89,8 @@ public class CreditCardActivity extends AppCompatActivity {
                             dialog.dismiss();
                             Toast.makeText(CreditCardActivity.this, "Thank you for purchase", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(CreditCardActivity.this,NewHomeActivity.class);
+                            databaseReference = FirebaseDatabase.getInstance().getReference("Users");
                             for (BookItem bookItem : books){
-                                databaseReference = FirebaseDatabase.getInstance().getReference("Users");
                                 databaseReference.child("Authors").child(bookItem.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -100,6 +100,7 @@ public class CreditCardActivity extends AppCompatActivity {
                                                             databaseReference.child("Authors").child(bookItem.getUid())
                                                                     .child(dataSnapshot.getKey()
                                                                             .toString()).setValue(dataSnapshot.getValue(int.class)+bookItem.getPrice());
+
                                                         }
                                                     }
                                                 }

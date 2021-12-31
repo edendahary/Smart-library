@@ -38,6 +38,7 @@ public class MyCartActivity extends AppCompatActivity implements customAdapter.C
     private customAdapter customAdapter;
     private CheckBox checkBox;
     private BookItem bookItem;
+    private DatabaseReference referenceBooks;
     private DatabaseReference databaseReference;
     private Bundle extras;
     private DatabaseReference referenceProfile;
@@ -99,11 +100,32 @@ public class MyCartActivity extends AppCompatActivity implements customAdapter.C
                             if (snapshot.exists()) {
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     BookItem currBook = dataSnapshot.getValue(BookItem.class);
-                                    books.add(currBook);
+                                    referenceBooks = FirebaseDatabase.getInstance().getReference("AllBooks");
+                                    referenceBooks.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if(snapshot.exists()){
+                                                for(DataSnapshot book : snapshot.getChildren()){
+                                                    BookItem b = book.getValue(BookItem.class);
+                                                    if(b.getName().equals(currBook.getName())){
+                                                        books.add(currBook);
+                                                        break;
+                                                    }
+                                                }
+
+                                            }
+                                            customAdapter = new customAdapter(MyCartActivity.this,books);
+                                            listView.setAdapter(customAdapter);
+                                            customAdapter.setCheckedListener(MyCartActivity.this);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
                                 }
-                                customAdapter = new customAdapter(MyCartActivity.this,books);
-                                listView.setAdapter(customAdapter);
-                                customAdapter.setCheckedListener(MyCartActivity.this);
+
                             }
                         }
 
@@ -121,11 +143,32 @@ public class MyCartActivity extends AppCompatActivity implements customAdapter.C
                             if (snapshot.exists()) {
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     BookItem currBook = dataSnapshot.getValue(BookItem.class);
-                                    books.add(currBook);
+                                    referenceBooks = FirebaseDatabase.getInstance().getReference("AllBooks");
+                                    referenceBooks.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            if(snapshot.exists()){
+                                                for(DataSnapshot book : snapshot.getChildren()){
+                                                    BookItem b = book.getValue(BookItem.class);
+                                                    if(b.getName().equals(currBook.getName())){
+                                                        books.add(currBook);
+                                                        break;
+                                                    }
+                                                }
+
+                                            }
+                                            customAdapter = new customAdapter(MyCartActivity.this,books);
+                                            listView.setAdapter(customAdapter);
+                                            customAdapter.setCheckedListener(MyCartActivity.this);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
                                 }
-                                customAdapter = new customAdapter(MyCartActivity.this,books);
-                                listView.setAdapter(customAdapter);
-                                customAdapter.setCheckedListener(MyCartActivity.this);
+
                             }
                         }
 
