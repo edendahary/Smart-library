@@ -45,6 +45,7 @@ public class CheckoutActivity extends AppCompatActivity{
     private Bundle extras;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +68,7 @@ public class CheckoutActivity extends AppCompatActivity{
         RadiobuttonBit = findViewById(R.id.radio_bit);
         editTextPaypal = findViewById(R.id.editTextPaypal);
         editTextBit = findViewById(R.id.editTextBit);
+
         books = new ArrayList<>();
 
 
@@ -307,7 +309,7 @@ public class CheckoutActivity extends AppCompatActivity{
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_home){
-            Intent intent = new Intent(CheckoutActivity.this,HomeActivity.class);
+            Intent intent = new Intent(CheckoutActivity.this,NewHomeActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_log_out){

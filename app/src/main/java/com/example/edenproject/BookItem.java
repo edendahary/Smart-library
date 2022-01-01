@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class BookItem implements Serializable {
     private String Name,AuthorName,Category,PublicationDate,Description,Uri;
-    private int quantity,price,Pages;
+    private int quantity,price,Pages,Sold;
     private String Uid;
 
 
@@ -30,6 +30,15 @@ public class BookItem implements Serializable {
         this.price = price;
         this.Uri = uri;
         this.Uid = Uid;
+        this.Sold =0;
+    }
+
+    public int getSold() {
+        return Sold;
+    }
+
+    public void setSold(int sold) {
+        Sold = sold;
     }
 
     public String getUid() {

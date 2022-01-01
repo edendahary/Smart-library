@@ -210,6 +210,10 @@ public class UpdatePwdActivity extends AppCompatActivity {
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);
+        }else if (id == R.id.menu_history_list) {
+            Intent intent = new Intent(UpdatePwdActivity.this, AddBooksActivity.class);
+            startActivity(intent);
+            finish();
         }else if (id == R.id.menu_new_book){
             Intent intent = new Intent(UpdatePwdActivity.this,AddBooksActivity.class);
             startActivity(intent);

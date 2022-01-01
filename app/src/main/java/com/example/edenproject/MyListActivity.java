@@ -122,6 +122,10 @@ public class MyListActivity extends AppCompatActivity {
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);
+        }else if (id == R.id.menu_history_list) {
+            Intent intent = new Intent(MyListActivity.this, HistoryActivity.class);
+            startActivity(intent);
+            finish();
         }else if(id == R.id.menu_new_book){
             Intent intent = new Intent(MyListActivity.this,AddBooksActivity.class);
             startActivity(intent);

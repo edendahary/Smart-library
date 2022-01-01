@@ -66,7 +66,8 @@ public class ListAdapter extends ArrayAdapter<BookItem> {
             holder.Publication_date.setText(books.get(position).getPublicationDate());
             holder.Price.setText(Integer.toString(books.get(position).getPrice()));
             holder.imageButton_Delete.setVisibility(View.GONE);
-
+            holder.Sold_amount.setVisibility(View.GONE);
+            holder.Sold.setVisibility(View.GONE);
             return row;
         }
 
@@ -75,7 +76,7 @@ public class ListAdapter extends ArrayAdapter<BookItem> {
     }
     class ViewHolder{
         ImageView imageView;
-        TextView textView,Author_name,Category,Publication_date,Pages,Price,Sold_amount;
+        TextView textView,Author_name,Category,Publication_date,Pages,Price,Sold_amount,Sold;
         ImageButton imageButton_Delete;
 
         ViewHolder(View view){
@@ -88,6 +89,7 @@ public class ListAdapter extends ArrayAdapter<BookItem> {
             imageButton_Delete = view.findViewById(R.id.button_delete_book);
             Price = view.findViewById(R.id.textView_book_author_price);
             Sold_amount = view.findViewById(R.id.textView_book_author_sold_count);
+            Sold = view.findViewById(R.id.textView_book_author_sold);
 
         }
     }

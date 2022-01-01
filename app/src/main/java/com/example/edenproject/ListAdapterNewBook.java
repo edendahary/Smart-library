@@ -75,6 +75,9 @@ public class ListAdapterNewBook extends ArrayAdapter<ArrayList<BookItem>> {
                 holder.Pages.setText(Integer.toString(book_name.get(position).getPages()));
                 holder.Publication_date.setText(book_name.get(position).getPublicationDate());
                 holder.Price.setText(Integer.toString(book_name.get(position).getPrice()));
+                holder.Sold_amount.setText(Integer.toString(book_name.get(position).getSold()));
+
+
 
                 holder.imageButton_Delete.setOnClickListener(new View.OnClickListener() {
                 @Override

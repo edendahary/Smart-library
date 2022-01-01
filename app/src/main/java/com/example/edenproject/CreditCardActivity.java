@@ -35,7 +35,9 @@ public class CreditCardActivity extends AppCompatActivity {
     private FirebaseAuth authProfile;
     private FirebaseUser firebaseUser;
     private TextView textViewSum;
-    private int Sum=0;
+    private Bundle extras;
+    private int Sum,sum2;
+    private DatabaseReference BookDatabaseReference;
     private ArrayList<BookItem> books;
 
     @Override
@@ -88,34 +90,66 @@ public class CreditCardActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             Toast.makeText(CreditCardActivity.this, "Thank you for purchase", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(CreditCardActivity.this,NewHomeActivity.class);
                             databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+                            sum2 = 0;
                             for (BookItem bookItem : books){
-                                databaseReference.child("Authors").child(bookItem.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                databaseReference.child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if (snapshot.exists()){
+                                            databaseReference.child(firebaseUser.getUid()).child("Order Books").child(bookItem.getName()).setValue(bookItem);
+
+                                        }else{
+                                            databaseReference.child("Authors").child(firebaseUser.getUid()).child("Order Books").child(bookItem.getName()).setValue(bookItem);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                                databaseReference.child("Authors").child(bookItem.getUid()).child("wallet").addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                 if(snapshot.exists()){
-                                                    for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                                                        if(dataSnapshot.getKey().toString().equals("wallet")){
-                                                            databaseReference.child("Authors").child(bookItem.getUid())
-                                                                    .child(dataSnapshot.getKey()
-                                                                            .toString()).setValue(dataSnapshot.getValue(int.class)+bookItem.getPrice());
-
-                                                        }
-                                                    }
+                                                    sum2 = snapshot.getValue(int.class);
                                                 }
+                                                databaseReference.child("Authors").child(bookItem.getUid()).child("wallet").setValue(sum2+bookItem.getPrice());
                                             }
+
 
                                             @Override
                                             public void onCancelled(@NonNull DatabaseError error) {
 
                                             }
                                         });
+                                databaseReference.child("Authors").child(bookItem.getUid()).child("Books").child(bookItem.getName()).child("Sold").addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        int sum = 0;
+                                        if (snapshot.exists()) {
+                                           sum = snapshot.getValue(int.class);
+                                        }
+                                        databaseReference.child("Authors").child(bookItem.getUid()).child("Books").child(bookItem.getName()).child("Sold").setValue(sum+1);
+                                        bookItem.setSold(sum+1);
+                                        Intent intent = new Intent(CreditCardActivity.this, HistoryActivity.class);
+                                        startActivity(intent);
+                                        finish();
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
+
                             }
 
-                            startActivity(intent);
-                            finish();
                         }
+
                     });
                     alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
@@ -129,7 +163,9 @@ public class CreditCardActivity extends AppCompatActivity {
                     Toast.makeText(CreditCardActivity.this, "Please complete the form", Toast.LENGTH_SHORT).show();
 
                 }
+
             }
+
         });
 
     }
@@ -169,6 +205,10 @@ public class CreditCardActivity extends AppCompatActivity {
             overridePendingTransition(0,0);
         }else if (id == R.id.menu_profile){
             Intent intent = new Intent(CreditCardActivity.this,ProfileActivity.class);
+            startActivity(intent);
+            finish();
+        }else if (id == R.id.menu_history_list) {
+            Intent intent = new Intent(CreditCardActivity.this, HistoryActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_cart){

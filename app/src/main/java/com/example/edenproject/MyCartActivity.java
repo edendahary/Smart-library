@@ -237,6 +237,10 @@ public boolean onCreateOptionsMenu(Menu menu) {
             Intent intent = new Intent(MyCartActivity.this,AddBooksActivity.class);
             startActivity(intent);
             finish();
+        }else if (id == R.id.menu_history_list) {
+            Intent intent = new Intent(MyCartActivity.this, HistoryActivity.class);
+            startActivity(intent);
+            finish();
         }else if (id == R.id.menu_profile){
             Intent intent = new Intent(MyCartActivity.this,ProfileActivity.class);
             startActivity(intent);

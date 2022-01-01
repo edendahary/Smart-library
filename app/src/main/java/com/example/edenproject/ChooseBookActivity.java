@@ -191,6 +191,10 @@ public class ChooseBookActivity extends AppCompatActivity {
             Intent intent = new Intent(ChooseBookActivity.this,AddBooksActivity.class);
             startActivity(intent);
             finish();
+        }else if (id == R.id.menu_history_list) {
+            Intent intent = new Intent(ChooseBookActivity.this, HistoryActivity.class);
+            startActivity(intent);
+            finish();
         }else if (id == R.id.menu_home){
             Intent intent = new Intent(ChooseBookActivity.this,NewHomeActivity.class);
             startActivity(intent);

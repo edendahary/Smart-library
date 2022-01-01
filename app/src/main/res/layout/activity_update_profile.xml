@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UpdateProfileActivity"
+    android:background="#c1461d">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="#f4feff">
+
+            <TextView
+                android:id="@+id/textView_show_profile_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="5dp"
+                android:text="Profile Details"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/black"
+                android:textSize="30dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            android:layout_margin="15dp"
+            android:background="#f4feff">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:id="@+id/ic_profile"
+                android:background="@drawable/ic_profile"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView_show_full_name"
+                android:hint="Loading..."
+                android:layout_marginStart="50dp"
+                android:textSize="18sp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/textView_show_full_name"
+                android:background="@android:color/darker_gray"
+                android:id="@+id/divider_name"/>
+
+
+
+            <EditText
+                android:id="@+id/editText_fullname"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="50dp"
+                android:layout_below="@+id/textView_show_full_name"
+                android:background="@drawable/border"
+                android:hint="Enter your Name"
+                android:inputType="textPostalAddress"
+                android:padding="6dp"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editText_Bday"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/editText_fullname"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/border"
+                android:hint="Enter your Birth Day"
+                android:inputType="textPostalAddress"
+                android:padding="6dp"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editText_Gender"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/editText_Bday"
+                android:layout_marginTop="20dp"
+
+                android:background="@drawable/border"
+                android:hint="Enter your Gender"
+                android:inputType="textPostalAddress"
+                android:padding="6dp"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/editText_PhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/editText_Gender"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/border"
+                android:hint="Enter your Phone Number"
+                android:inputType="textPostalAddress"
+                android:padding="6dp"
+                android:textSize="16sp" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                style="?android:attr/progressBarStyleLarge"
+                android:id="@+id/progressBar"
+                android:elevation="10dp"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/button_add_profile"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/editText_PhoneNumber"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#c1461d"
+                android:text="Add Profile" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</ScrollView>

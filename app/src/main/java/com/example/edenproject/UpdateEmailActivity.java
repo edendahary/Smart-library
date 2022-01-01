@@ -247,6 +247,10 @@ public class UpdateEmailActivity extends AppCompatActivity {
             Intent intent = new Intent(UpdateEmailActivity.this,AddBooksActivity.class);
             startActivity(intent);
             finish();
+        }else if (id == R.id.menu_history_list) {
+            Intent intent = new Intent(UpdateEmailActivity.this, HistoryActivity.class);
+            startActivity(intent);
+            finish();
         }else if (id == R.id.menu_my_list){
             Intent intent = new Intent(UpdateEmailActivity.this,MyListActivity.class);
             startActivity(intent);

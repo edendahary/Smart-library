@@ -217,6 +217,10 @@ public class FullAddressActivity extends AppCompatActivity {
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);
+        }else if (id == R.id.menu_history_list) {
+            Intent intent = new Intent(FullAddressActivity.this, AddBooksActivity.class);
+            startActivity(intent);
+            finish();
         }else if(id == R.id.menu_my_list){
             Intent intent = new Intent(FullAddressActivity.this,MyListActivity.class);
             startActivity(intent);

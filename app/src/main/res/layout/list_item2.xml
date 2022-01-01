@@ -83,12 +83,22 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView_book_author_sold"
+                android:id="@+id/textView_book_dollar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
-                android:layout_marginLeft="34dp"
-                android:layout_toRightOf="@+id/textView_book_category"
+                android:layout_below="@+id/textView_book_pages"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/textView_book_author_price"
+                android:text="$"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textView_book_author_sold"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="230dp"
+                android:layout_marginTop="0dp"
                 android:text="Sold"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -98,23 +108,19 @@
                 android:layout_width="62dp"
                 android:layout_height="38dp"
                 android:layout_below="@+id/textView_book_author_sold"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="31dp"
-                android:layout_marginTop="23dp"
-                android:layout_toRightOf="@+id/textView_book_category"
+                android:layout_marginStart="230dp"
+                android:layout_marginTop="10dp"
                 android:text="Sold Amount"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <ImageButton
+                android:id="@+id/button_delete_book"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="56dp"
-                android:id="@+id/button_delete_book"
+                android:layout_marginStart="310dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginRight="0dp"
-                android:layout_toRightOf="@+id/textView_book_author_sold"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_delete_button" />
 

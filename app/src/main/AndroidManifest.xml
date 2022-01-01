@@ -10,6 +10,9 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.EdenProject">
         <activity
+            android:name=".UpdateProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".HistoryActivity"
             android:exported="false" />
         <activity
@@ -47,9 +50,6 @@
             android:exported="false" />
         <activity
             android:name=".MyListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".HomeActivity"
             android:exported="false" />
         <activity
             android:name=".UploadProfilePicActivity"

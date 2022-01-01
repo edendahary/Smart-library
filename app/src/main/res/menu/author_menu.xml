@@ -35,8 +35,12 @@
         android:orderInCategory="4"
         android:id="@+id/menu_new_book"/>
 
+    <item android:title="Order Books"
+        android:id="@+id/menu_history_list"
+        android:orderInCategory="5"/>
+
     <item android:title="Log out"
-        android:orderInCategory="5"
+        android:orderInCategory="6"
         android:id="@+id/menu_log_out"/>
 
 

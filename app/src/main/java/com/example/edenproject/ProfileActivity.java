@@ -46,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseUser firebaseUser;
     private StorageReference storageReference;
     private FirebaseStorage storage;
+    private Button buttonAddressDetails, buttonProfileEdit;
     private DatabaseReference databaseReference;
     private UserClass ReadUserDetails;
     private AuthorClass ReadAuthorDetails;
@@ -63,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
         ColorDrawable cd = new ColorDrawable(Color.parseColor("#c1461d"));
         getSupportActionBar().setBackgroundDrawable(cd);
 
-        Button buttonAddressDetails = findViewById(R.id.button_address_details);
+         buttonAddressDetails = findViewById(R.id.button_address_details);
 
         buttonAddressDetails.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,11 +81,19 @@ public class ProfileActivity extends AppCompatActivity {
         textViewMobile = findViewById(R.id.textView_show_mobile);
         progressBar = findViewById(R.id.progressBar);
         imageView = findViewById(R.id.imageView_profile_dp);
+        buttonProfileEdit = findViewById(R.id.button_edit_profile);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ProfileActivity.this,UploadProfilePicActivity.class);
+                startActivity(intent);
+            }
+        });
+        buttonProfileEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this,UpdateProfileActivity.class);
                 startActivity(intent);
             }
         });
@@ -231,6 +240,10 @@ public class ProfileActivity extends AppCompatActivity {
             overridePendingTransition(0,0);
         }else if (id == R.id.menu_new_book){
             Intent intent = new Intent(ProfileActivity.this,AddBooksActivity.class);
+            startActivity(intent);
+            finish();
+        }else if (id == R.id.menu_history_list) {
+            Intent intent = new Intent(ProfileActivity.this, HistoryActivity.class);
             startActivity(intent);
             finish();
         }else if (id == R.id.menu_my_list){

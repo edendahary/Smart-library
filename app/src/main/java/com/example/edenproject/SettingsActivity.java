@@ -101,6 +101,10 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(getIntent());
             finish();
             overridePendingTransition(0,0);
+        }else if (id == R.id.menu_history_list) {
+            Intent intent = new Intent(SettingsActivity.this, HistoryActivity.class);
+            startActivity(intent);
+            finish();
         }else if (id == R.id.menu_new_book){
             Intent intent = new Intent(SettingsActivity.this,AddBooksActivity.class);
             startActivity(intent);

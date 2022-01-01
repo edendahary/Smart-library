@@ -190,11 +190,23 @@
                 android:visibility="gone" />
 
         </RelativeLayout>
+
+        <Button
+            android:id="@+id/button_edit_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider_mobile"
+            android:layout_marginLeft="70dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="70dp"
+            android:backgroundTint="#c1461d"
+            android:text="Edit Profile" />
+
         <Button
             android:id="@+id/button_address_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/divider_mobile"
+            android:layout_below="@+id/button_edit_profile"
             android:layout_marginLeft="70dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="70dp"
