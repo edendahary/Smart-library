@@ -38,11 +38,12 @@ public class CheckoutActivity extends AppCompatActivity{
     private ListView listView;
     private ListAdapter listAdapter;
     private ArrayList<BookItem>books;
-    private Button buttonNewCard;
+    private Button buttonNewCard,buttonEditAddress;
     private RadioButton RadiobuttonCreditCard,RadiobuttonPaypal,RadiobuttonBit;
     private EditText editTextPaypal,editTextBit;
     private DatabaseReference databaseReference;
     private Bundle extras;
+
 
 
 
@@ -68,7 +69,7 @@ public class CheckoutActivity extends AppCompatActivity{
         RadiobuttonBit = findViewById(R.id.radio_bit);
         editTextPaypal = findViewById(R.id.editTextPaypal);
         editTextBit = findViewById(R.id.editTextBit);
-
+        buttonEditAddress = findViewById(R.id.imageButton_edit_address);
         books = new ArrayList<>();
 
 
@@ -79,6 +80,15 @@ public class CheckoutActivity extends AppCompatActivity{
         editTextBit.setEnabled(false);
         editTextPaypal.setEnabled(false);
         ColorDrawable gray = new ColorDrawable(Color.parseColor("#607D8B"));
+
+
+        buttonEditAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CheckoutActivity.this,AddressActivity.class);
+                startActivity(intent);
+            }
+        });
 
         RadiobuttonCreditCard.setOnClickListener(new View.OnClickListener() {
             @Override

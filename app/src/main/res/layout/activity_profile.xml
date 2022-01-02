@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity"
+    tools:context=".ProfileActivity"
     android:background="#f4feff">
 
     <LinearLayout
@@ -179,6 +179,27 @@
                 android:layout_below="@+id/textView_show_mobile"
                 android:layout_marginTop="20dp"
                 android:background="@android:color/darker_gray" />
+
+            <!--- Show Wallet -->
+            <ImageView
+                android:id="@+id/ic_wallet"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/divider_mobile"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/ic_wallet" />
+
+            <TextView
+                android:id="@+id/textView_show_wallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView_show_mobile"
+                android:layout_alignStart="@+id/ic_mobile"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="40dp"
+                android:hint="Loading..."
+                android:textSize="18sp" />
+
 
             <ProgressBar
                 android:id="@+id/progressBar"

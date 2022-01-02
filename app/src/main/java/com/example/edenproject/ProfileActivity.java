@@ -38,10 +38,15 @@ import java.io.IOException;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView textViewWelcome,textViewFullName,textViewEmail,textViewDoB,textViewGender,textViewMobile;
+    private TextView textViewWelcome,textViewFullName,textViewEmail,textViewDoB,textViewGender,textViewMobile,textViewWallet;
     private ProgressBar progressBar;
-    private String fullname,email,dob,gender,mobile;
-    private ImageView imageView;
+    private String fullname;
+    private String email;
+    private String dob;
+    private String gender;
+    private String mobile;
+    private int wallet;
+    private ImageView imageView,imageViewWallet;
     private FirebaseAuth authProfile;
     private FirebaseUser firebaseUser;
     private StorageReference storageReference;
@@ -82,6 +87,8 @@ public class ProfileActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         imageView = findViewById(R.id.imageView_profile_dp);
         buttonProfileEdit = findViewById(R.id.button_edit_profile);
+        textViewWallet = findViewById(R.id.textView_show_wallet);
+        imageViewWallet = findViewById(R.id.ic_wallet);
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +143,8 @@ public class ProfileActivity extends AppCompatActivity {
                                 textViewGender.setText(gender);
                                 textViewMobile.setText(mobile);
                                 progressBar = findViewById(R.id.progressBar);
+                                imageViewWallet.setVisibility(View.GONE);
+                                textViewWallet.setVisibility(View.GONE);
 
                                 Uri uri = firebaseUser.getPhotoUrl();
                                 Picasso.get().load(uri).into(imageView);
@@ -168,12 +177,16 @@ public class ProfileActivity extends AppCompatActivity {
                                 dob = ReadAuthorDetails.getDob();
                                 gender = ReadAuthorDetails.getGender();
                                 mobile = ReadAuthorDetails.getPhone();
+                                wallet = ReadAuthorDetails.getWallet();
                                 textViewWelcome.setText("Welcome, " + fullname+ "!");
                                 textViewFullName.setText(fullname);
                                 textViewEmail.setText(email);
                                 textViewDoB.setText(dob);
                                 textViewGender.setText(gender);
                                 textViewMobile.setText(mobile);
+
+                                textViewWallet.setText(String.valueOf(wallet+"$"));
+
                                 progressBar = findViewById(R.id.progressBar);
 
                                 Uri uri = firebaseUser.getPhotoUrl();
